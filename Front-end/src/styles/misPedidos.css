@@ -1,0 +1,87 @@
+.cont{
+    padding-bottom: 1%;
+}
+
+.fatherTable{
+    margin: 2%;
+    width:96%;
+    background-color: white;
+}
+
+thead{
+    background-color: #b3f0ff;
+}
+
+.fatherTable img{
+    max-width: 100px;
+    max-height: 100px;
+    object-fit: contain;
+    overflow: hidden;
+}
+
+.childTable{
+    width: 100%;
+}
+
+.first{
+    width:5%;
+}
+
+.producTit{
+    font-weight: bolder;
+    background-color:#b3f0ff;
+}
+
+.prodOrdered{
+    border-bottom: 1px solid #b3f0ff;
+}
+
+.pendiente{
+    background-color: rgb(221, 255, 109);
+    color:rgb(171, 171, 0);
+}
+
+.cancelado{
+    background-color:gray;
+    color:rgb(62, 62, 62);
+}
+
+.entregado{
+    background-color:rgb(163, 255, 163);
+    color:green;
+}
+
+
+.forButton{
+    display: flex;
+}
+
+.forButton button{
+    border: none;
+    color:white;
+    padding:10px;
+    margin: 3px;
+    border-radius: 6px;
+    transition: all 0.5s ease;
+}
+
+.cancel button{
+    background-color: red;
+}
+
+.deliver button{
+    background-color: rgb(0, 186, 0);
+}
+
+.cancel button:hover{
+    background-color: rgb(155, 0, 0);
+    transition: all 0.5s ease;
+}
+
+.deliver button:hover{
+    background-color: green;
+    transition: all 0.5s ease;
+}
+
+
+

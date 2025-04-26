@@ -1,0 +1,66 @@
+.admin-products-container {
+    padding: 20px;
+  }
+  
+  .product-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-family: 'Arial', sans-serif; /* Fuente más moderna */
+  }
+  
+  .product-table th,
+  .product-table td {
+    border: 1px solid #ddd;
+    padding: 12px; /* Mayor espacio para una mejor legibilidad */
+    text-align: left;
+    vertical-align: top;
+    font-size: 14px; /* Tamaño de fuente adecuado */
+  }
+  
+  .product-table th {
+    background-color: #007bff; /* Azul para la fila de encabezado */
+    color: white; /* Color del texto en el encabezado */
+  }
+  
+  .product-table tr:nth-child(even) {
+    background-color: #f9f9f9; /* Fila blanca */
+  }
+  
+  .product-table tr:nth-child(odd) {
+    background-color: #e3f2fd; /* Fila celeste claro */
+  }
+  
+  .product-table tr:hover {
+    background-color: #b3e5fc; /* Celeste más oscuro al pasar el ratón */
+  }
+  
+  .product-table img.product-image {
+    width: 100px; /* Ajusta el tamaño de las imágenes según sea necesario */
+    height: auto;
+    border-radius: 4px; /* Bordes redondeados para las imágenes */
+  }
+  
+  .btn-add-product {
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px; /* Tamaño de fuente del botón */
+    font-family: 'Arial', sans-serif; /* Fuente más moderna */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+  }
+  
+  .btn-add-product:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Elimina la selección de fila */
+  .product-table tr {
+    cursor: default;
+  }
+  

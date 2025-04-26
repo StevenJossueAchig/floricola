@@ -1,0 +1,161 @@
+.buttonHold{
+    width: 100%;
+    display: flex;
+    position: relative;
+    padding-top:1%;
+}
+
+.back{
+    position: relative;
+    top:2%;
+    left:2%;
+    height: 50px;
+    width: 3.8%;
+    display: flex;
+    background-color: rgba(0,0,0,0);
+    border:none;
+    background-image: url("../../public/left-arrow.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.searchbar{
+    width:90%;
+    height:50px;
+    border: 1px solid white;
+    border-radius: 5px;
+    background-color: rgba(0,0,0,0);
+    color:white;
+    margin: 1% 0%;
+    padding:0 1%;
+}
+
+.searchbar::placeholder{
+    color:white;
+}
+
+.listcontainer{
+    display:flex;
+    align-items: center;
+    position:relative;
+    top:0%;
+    left:0%;
+    right: 0%;
+    bottom:0%;
+}
+
+.productList{
+    width:98%;
+    height: 450px;
+    margin:1%;
+    display:grid;
+    -ms-grid-column-align: center;
+    -ms-grid-row-align: center;
+    grid-template-columns: repeat(5,16%);
+    grid-column-gap: 4%;
+    grid-row-gap:5%;
+    overflow-y: auto;
+    margin-bottom: 2%;
+}
+
+.selectedList{
+    width:50%;
+    height: 450px;
+    margin:1%;
+    display:grid;
+    -ms-grid-column-align: center;
+    -ms-grid-row-align: center;
+    grid-template-columns: repeat(3,30%);
+    grid-column-gap: 2%;
+    grid-row-gap:5%;
+    overflow-y: auto;
+    margin-bottom: 2%;
+}
+
+
+.flowerop{
+    position:relative;
+    display:table-cell;
+    list-style-type: none;
+    background-color: white;
+    border-radius: 5px;
+    max-height: 250px;
+    min-height: 270px;
+    transition: all 0.7s ease;
+}
+
+.bottomPart{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bottomPart input[type="number"]{
+    width:20%;
+    margin-left:5%;
+    border:none;
+    text-align: center;
+    color:white;
+    background-color: #00244ba5;
+    z-index: 10;
+}
+
+.selected{
+    transform:scale(105%);
+    border-radius: 15px;
+    z-index:10;
+    border: 2px solid #007bff;
+    background-color: #b3f0ff;
+    transition: all 0.7s ease;
+}
+
+.flowerop input[type="checkbox"]{
+    position:absolute;
+    top:2%;
+    left:2%;
+}
+
+.flowerop img{
+    height: 200px;
+    width: 160px;
+    object-fit:contain;
+    overflow: hidden;
+    
+}
+
+.bottomHold{
+    display: flex;
+    justify-content: right;
+    width: 100%; 
+    padding-bottom: 2%;
+}
+
+.continue{
+    position:relative;
+    right: 5%;
+    bottom:5%;
+}
+
+.confirmHolder{
+    display: flex;
+}
+
+.infoPedido{
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    width:50%;
+    gap:15%;
+    color: white;
+}
+
+.infoPedido div{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap:4%;
+}
+
+.infoPedido p{
+    font-size: 18pt ;
+}

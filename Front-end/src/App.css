@@ -1,0 +1,214 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+/* App.css */
+/*Contenedor de usuarios*/
+.auth-wrapper-usuarios {
+  height: auto;
+  margin-top: 50px;
+  width: 90%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.auth-inner-usuarios {
+  width: 100%;
+}
+/*Contenedor registro*/
+.auth-wrapper-registro {
+  height: auto;
+  margin-top: 50px;
+  width: 30%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+
+.auth-inner-registro {
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.col-md-6 {
+  flex: 1;
+  padding: 10px;
+}
+
+.form-control {
+  width: 100%;
+  box-sizing: border-box;
+}
+/*Contenedor de suscursales*/
+.auth-wrapper-sucursales {
+  height: auto;
+  margin-top: 50px;
+  width: 90%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.auth-inner-sucursales {
+  width: 100%;
+}
+.table-container {
+  width: 100%;
+  border-collapse: collapse;
+  overflow-x: auto;
+}
+
+.table-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-container th, .table-container td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.table-container th {
+  text-align: center;
+}
+
+.table-container td {
+  text-align: center;
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro semitransparente */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999; /* Asegura que el overlay esté encima de todo */
+}
+
+.popup {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+  width: 400px; /* Tamaño fijo del pop-up */
+  max-width: 80%; /* Asegura que el pop-up no exceda el 80% del ancho de la pantalla */
+  z-index: 1000; /* Asegura que el pop-up esté encima del overlay */
+}
+
+.popup-inner {
+  text-align: center;
+}
+
+/*NAVBAR*/
+/* Navbar styles */
+.navbar {
+  display: flex;
+  justify-content: space-between; /* Distribute space between items */
+  background-color: #333; /* Background color for navbar */
+  padding: 10px 20px; /* Padding around the navbar */
+}
+
+.nav-list {
+  display: flex;
+  flex-grow: 1; /* Allow the list to grow and fill the available space */
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav-item {
+  margin: 0 10px; /* Spacing between items */
+}
+
+.nav-link {
+  color: white; /* Text color */
+  text-decoration: none; /* Remove underline from links */
+}
+
+.nav-item-logout {
+  margin-left: auto; /* Push logout button to the right end */
+}
+
+.nav-item.active .nav-link {
+  background-color: #005dc0; /* Color de fondo para el elemento activo */
+  color: white; /* Color del texto para el elemento activo */
+  border-radius: 5px; /* Opcional: añadir bordes redondeados */
+}
+
+.nav-item:hover .nav-link {
+  background-color: #0056b3; /* Color de fondo al pasar el cursor */
+  color: white; /* Color del texto al pasar el cursor */
+  border-radius: 5px; /* Opcional: añadir bordes redondeados */
+}
+
+
+/*.btn-primary {
+  background-color: #007bff; 
+  color: white; 
+  border: none;
+  padding: 10px 20px; 
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}*/
+
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
