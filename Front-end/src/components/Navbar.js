@@ -63,11 +63,14 @@ function Navbar({ isLoggedIn, userType, pendientes }) {
           )
         )}
 
-        <li className={`nav-item ${location.pathname === "/about" ? "active" : ""}`}>
-          <Link to="/about" className="nav-link">
-            Acerca de
-          </Link>
-        </li>
+{/*
+<li className={`nav-item ${location.pathname === "/about" ? "active" : ""}`}>
+  <Link to="/about" className="nav-link">
+    Acerca de
+  </Link>
+</li>
+*/}
+
 
         {isLoggedIn && userType !== 'Admin' &&
           <li className={`nav-item ${location.pathname === "/misPedidos" ? "active" : ""}`}>

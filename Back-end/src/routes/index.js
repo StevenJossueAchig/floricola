@@ -33,7 +33,7 @@ const {
 router.post('/addProduct', addProduct);
 router.get('/getAllProducts', getAllProducts);
 router.get('/getProduct/:id', getProductById);
-router.post('/updateProduct/:id', updateProduct);
+router.put('/updateProduct/:id', updateProduct);
 router.delete('/deleteProduct/:id', deleteProduct);
 
 // USUARIOS

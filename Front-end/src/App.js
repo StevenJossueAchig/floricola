@@ -30,8 +30,9 @@ function App() {
   return (
     <Router>
       <div className="App">
+        
         <Navbar isLoggedIn={isLoggedIn} userType={userType} pendientes={numeroPendientes}/>
-
+        
         <Routes>
           {/* unauthorized route */}
           {!isLoggedIn && (

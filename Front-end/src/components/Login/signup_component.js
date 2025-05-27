@@ -38,54 +38,81 @@ export default function SignUp() {
       });
   }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+const handleSubmit = (e) => {
+  e.preventDefault();
 
-    // Validación de campos
-    if (!nombres || !apellidos || !telefono || !correo_electronico || !usuario || !contrasena || !sucursalId) {
-      alert("Por favor, complete todos los campos.");
-      return;
-    }
+  // Validación de campos vacíos
+  if (!nombres || !apellidos || !telefono || !correo_electronico || !usuario || !contrasena || !sucursalId) {
+    alert("Por favor, complete todos los campos.");
+    return;
+  }
 
-    if (secretKey !== secretKeyAsign) {
-      alert("Código inválido.");
-      return;
-    }
+  // Validar nombres y apellidos: solo letras y espacios
+  const soloLetras = /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+$/;
+  if (!soloLetras.test(nombres)) {
+    alert("El campo Nombres solo debe contener letras.");
+    return;
+  }
+  if (!soloLetras.test(apellidos)) {
+    alert("El campo Apellidos solo debe contener letras.");
+    return;
+  }
 
-    // Enviar los datos del formulario
-    fetch("http://localhost:5000/register", {
-      method: "POST",
-      crossDomain: true,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify({
-        nombres,
-        apellidos,
-        telefono,
-        correo_electronico,
-        rol,
-        usuario,
-        contrasena,
-        sucursalId,
-      }),
+  // Validar correo electrónico
+  const correoValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!correoValido.test(correo_electronico)) {
+    alert("Ingrese un correo electrónico válido.");
+    return;
+  }
+
+  // Validar que el teléfono solo tenga números
+  const soloNumeros = /^[0-9]+$/;
+  if (!soloNumeros.test(telefono)) {
+    alert("El campo Teléfono solo debe contener números.");
+    return;
+  }
+
+  // Validar clave secreta
+  if (secretKey !== secretKeyAsign) {
+    alert("Código inválido.");
+    return;
+  }
+
+  // Enviar los datos del formulario
+  fetch("http://localhost:5000/register", {
+    method: "POST",
+    crossDomain: true,
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+    body: JSON.stringify({
+      nombres,
+      apellidos,
+      telefono,
+      correo_electronico,
+      rol,
+      usuario,
+      contrasena,
+      sucursalId,
+    }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data, "userRegister");
+      if (data.status === "ok") {
+        alert("Registro exitoso");
+      } else {
+        alert(data.error || "Algo salió mal.");
+      }
     })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data, "userRegister");
-        if (data.status === "ok") {
-          alert("Registro exitoso");
-        } else {
-          alert(data.error || "Algo salió mal.");
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        alert("Hubo un problema con el registro.");
-      });
-  };
+    .catch((error) => {
+      console.error("Error:", error);
+      alert("Hubo un problema con el registro.");
+    });
+};
+
 
   return (
     <div className="auth-wrapper-registro">

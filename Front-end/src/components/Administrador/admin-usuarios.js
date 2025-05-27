@@ -115,13 +115,13 @@ export default function AdminHome() {
           </table>
         </div>
 
-        <button
+        {/*<button
           onClick={logOut}
           className="btn btn-primary"
           style={{ marginTop: 10 }}
         >
           Log Out
-        </button>
+        </button>*/}
       </div>
     </div>
   );

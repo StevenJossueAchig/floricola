@@ -34,11 +34,80 @@ export default function AdminProducts() {
     setEditProduct(prev => ({ ...prev, [name]: value }));
   };
 
+  const validarProducto = (producto) => {
+  const textoRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/; // solo letras y espacios
+  const numeroRegex = /^\d+$/;
+  const decimalRegex = /^\d+(\.\d+)?$/;
+  const urlRegex = /^(http|https):\/\/[^ "]+$/;
+
+  if (!textoRegex.test(producto.tipo)) {
+    alert("El campo 'tipo' solo debe contener letras.");
+    return false;
+  }
+
+  if (!textoRegex.test(producto.variedad)) {
+    alert("El campo 'variedad' solo debe contener letras.");
+    return false;
+  }
+
+  if (!textoRegex.test(producto.color)) {
+    alert("El campo 'color' solo debe contener letras.");
+    return false;
+  }
+
+  if (!decimalRegex.test(producto.tamanoFlor)) {
+    alert("El tamaño de la flor debe ser un número decimal válido.");
+    return false;
+  }
+
+  if (!numeroRegex.test(producto.espinas)) {
+    alert("El campo 'espinas' debe contener solo números.");
+    return false;
+  }
+
+  if (!numeroRegex.test(producto.petalosPorFlor)) {
+    alert("El campo 'pétalos por flor' debe contener solo números.");
+    return false;
+  }
+
+  if (!numeroRegex.test(producto.stock)) {
+    alert("El campo 'stock' debe contener solo números.");
+    return false;
+  }
+
+  if (!urlRegex.test(producto.topPicture)) {
+    alert("La URL de la imagen principal no es válida.");
+    return false;
+  }
+
+  if (!urlRegex.test(producto.sidePicture)) {
+    alert("La URL de la imagen lateral no es válida.");
+    return false;
+  }
+
+  // Validar campos vacíos restantes
+  const camposObligatorios = [
+    "descripcion",
+    "longitudDisponibleCm",
+    "tiempoDeVidaDias"
+  ];
+  for (const campo of camposObligatorios) {
+    if (producto[campo] === "") {
+      alert(`El campo '${campo}' no puede estar vacío.`);
+      return false;
+    }
+  }
+
+  return true;
+};
+
+
   const createProduct = () => {
     if (Object.values(newProduct).some(val => val === "")) {
       alert("Todos los campos son obligatorios.");
       return;
     }
+    if (!validarProducto(newProduct)) return;
 
     fetch("http://localhost:5000/addProduct", {
       method: "POST",
@@ -82,13 +151,27 @@ export default function AdminProducts() {
       alert("Todos los campos son obligatorios.");
       return;
     }
+    if (!validarProducto(editProduct)) return;
 
     fetch(`http://localhost:5000/updateProduct/${editProduct.ID_PRODUCTO}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(editProduct),
+          body: JSON.stringify({
+      tipo: editProduct.tipo,
+      variedad: editProduct.variedad,
+      color: editProduct.color,
+      descripcion: editProduct.descripcion,
+      longitud_disponible_cm: editProduct.longitudDisponibleCm,
+      tiempo_de_vida_dias: editProduct.tiempoDeVidaDias,
+      tamano_flor: editProduct.tamanoFlor,
+      espinas: editProduct.espinas,
+      petalos_por_flor: editProduct.petalosPorFlor,
+      stock: editProduct.stock,
+      top_picture: editProduct.topPicture,
+      side_picture: editProduct.sidePicture
+    }),
     })
       .then(res => res.json())
       .then(data => {
@@ -290,125 +373,59 @@ export default function AdminProducts() {
         </div>
       )}
 
-      {showEditModal && editProduct && (
-        <div className="popup-overlay">
-          <div className="popup">
-            <div className="popup-inner">
-              <h3>Actualizar Producto</h3>
+{showEditModal && editProduct && (
+  <div className="popup-overlay">
+    <div className="popup">
+      <div className="popup-inner">
+        <h3>Actualizar Producto</h3>
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          {[
+            { name: "tipo", label: "Tipo" },
+            { name: "variedad", label: "Variedad" },
+            { name: "color", label: "Color" },
+            { name: "descripcion", label: "Descripción" },
+            { name: "longitudDisponibleCm", label: "Longitud (cm)" },
+            { name: "tiempoDeVidaDias", label: "Vida (días)" },
+            { name: "tamanoFlor", label: "Tamaño Flor", type: "number" },
+            { name: "espinas", label: "Espinas", type: "number" },
+            { name: "petalosPorFlor", label: "Pétalos", type: "number" },
+            { name: "stock", label: "Stock", type: "number" },
+            { name: "topPicture", label: "Imagen Principal" },
+            { name: "sidePicture", label: "Imagen Lateral" }
+          ].map(({ name, label, type = "text" }) => (
+            <div key={name} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <label htmlFor={name} style={{ width: "130px", textAlign: "right" }}>{label}:</label>
               <input
-                type="text"
-                name="tipo"
-                placeholder="Tipo"
-                value={editProduct.tipo}
+                type={type}
+                name={name}
+                value={editProduct[name]}
                 onChange={handleEditChange}
-                style={{ marginBottom: 10 }}
+                style={{ flex: 1 }}
               />
-              <input
-                type="text"
-                name="variedad"
-                placeholder="Variedad"
-                value={editProduct.variedad}
-                onChange={handleEditChange}
-                style={{ marginBottom: 10 }}
-              />
-              <input
-                type="text"
-                name="color"
-                placeholder="Color"
-                value={editProduct.color}
-                onChange={handleEditChange}
-                style={{ marginBottom: 10 }}
-              />
-              <input
-                type="text"
-                name="descripcion"
-                placeholder="Descripción"
-                value={editProduct.descripcion}
-                onChange={handleEditChange}
-                style={{ marginBottom: 10 }}
-              />
-              <input
-                type="number"
-                name="longitudDisponibleCm"
-                placeholder="Longitud Disponible (cm)"
-                value={editProduct.longitudDisponibleCm}
-                onChange={handleEditChange}
-                style={{ marginBottom: 10 }}
-              />
-              <input
-                type="number"
-                name="tiempoDeVidaDias"
-                placeholder="Tiempo de Vida (días)"
-                value={editProduct.tiempoDeVidaDias}
-                onChange={handleEditChange}
-                style={{ marginBottom: 10 }}
-              />
-              <input
-                type="number"
-                name="tamanoFlor"
-                placeholder="Tamaño Flor"
-                value={editProduct.tamanoFlor}
-                onChange={handleEditChange}
-                style={{ marginBottom: 10 }}
-              />
-              <input
-                type="number"
-                name="espinas"
-                placeholder="Espinas"
-                value={editProduct.espinas}
-                onChange={handleEditChange}
-                style={{ marginBottom: 10 }}
-              />
-              <input
-                type="number"
-                name="petalosPorFlor"
-                placeholder="Pétalos por Flor"
-                value={editProduct.petalosPorFlor}
-                onChange={handleEditChange}
-                style={{ marginBottom: 10 }}
-              />
-              <input
-                type="number"
-                name="stock"
-                placeholder="Stock"
-                value={editProduct.stock}
-                onChange={handleEditChange}
-                style={{ marginBottom: 10 }}
-              />
-              <input
-                type="text"
-                name="topPicture"
-                placeholder="Imagen Principal URL"
-                value={editProduct.topPicture}
-                onChange={handleEditChange}
-                style={{ marginBottom: 10 }}
-              />
-              <input
-                type="text"
-                name="sidePicture"
-                placeholder="Imagen Lateral URL"
-                value={editProduct.sidePicture}
-                onChange={handleEditChange}
-                style={{ marginBottom: 10 }}
-              />
-
-              <button onClick={updateProduct} className="btn btn-success">
-                Actualizar Producto
-              </button>
-              <button
-                onClick={() => {
-                  setShowEditModal(false);
-                  setEditProduct(null);
-                }}
-                className="btn btn-secondary"
-                style={{ marginLeft: 10 }}
-              >
-                Cancelar
-              </button>
             </div>
-          </div>
+          ))}
         </div>
-      )}
+
+        <div style={{ marginTop: "20px" }}>
+          <button onClick={updateProduct} className="btn btn-success">
+            Actualizar Producto
+          </button>
+          <button
+            onClick={() => {
+              setShowEditModal(false);
+              setEditProduct(null);
+            }}
+            className="btn btn-secondary"
+            style={{ marginLeft: 10 }}
+          >
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
 
       <table className="product-table">
         <thead>
@@ -447,7 +464,22 @@ export default function AdminProducts() {
               <td><img src={product.SIDE_PICTURE} alt={`Side of ${product.VARIEDAD}`} className="product-image" /></td>
               <td>
                 <button onClick={() => {
-                  setEditProduct(product);
+                  setEditProduct({
+                    tipo: product.TIPO,
+                    variedad: product.VARIEDAD,
+                    color: product.COLOR,
+                    descripcion: product.DESCRIPCION,
+                    longitudDisponibleCm: product.LONGITUD_DISPONIBLE_CM_,
+                    tiempoDeVidaDias: product.TIEMPO_DE_VIDA_DIAS_,
+                    tamanoFlor: product.TAMANO_FLOR,
+                    espinas: product.ESPINAS,
+                    petalosPorFlor: product.PETALOS_POR_FLOR,
+                    stock: product.STOCK,
+                    topPicture: product.TOP_PICTURE,
+                    sidePicture: product.SIDE_PICTURE,
+                    ID_PRODUCTO: product.ID_PRODUCTO
+                  });
+
                   setShowEditModal(true);
                 }} className="btn btn-warning">
                   <FontAwesomeIcon icon={faEdit} />
