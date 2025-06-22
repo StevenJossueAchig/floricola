@@ -63,13 +63,13 @@ function Navbar({ isLoggedIn, userType, pendientes }) {
           )
         )}
 
-{/*
+
 <li className={`nav-item ${location.pathname === "/about" ? "active" : ""}`}>
   <Link to="/about" className="nav-link">
-    Acerca de
+    Estadística
   </Link>
 </li>
-*/}
+
 
 
         {isLoggedIn && userType !== 'Admin' &&

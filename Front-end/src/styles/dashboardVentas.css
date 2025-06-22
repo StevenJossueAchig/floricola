@@ -1,0 +1,133 @@
+.dashboard-container {
+  padding: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4f7fa;
+}
+
+.dashboard-container h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.dashboard-section {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.dashboard-section h2 {
+  margin-bottom: 1rem;
+  color: #222;
+}
+
+.stock-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.stock-info img {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.analysis-section h2 {
+  text-align: center;
+  font-size: 1.6rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.insight-cards {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.card {
+  flex: 1 1 250px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.card img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 0.5rem;
+}
+
+.card h3 {
+  color: #444;
+  margin-bottom: 0.5rem;
+}
+
+.card span {
+  display: block;
+  margin-top: 0.3rem;
+  color: #555;
+}
+
+.card.suggestion {
+  background-color: #f0f8ff;
+}
+
+.card.top-product {
+  border-top: 4px solid #00c49f;
+}
+
+.card.low-product {
+  border-top: 4px solid #ff8042;
+}
+
+.product-gallery {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+  justify-content: center;
+}
+
+.product-card {
+  width: 140px;
+  background: #fdfdfd;
+  border-radius: 10px;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+.product-card img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.product-card p {
+  font-weight: 600;
+  margin: 0.5rem 0 0.3rem;
+  color: #333;
+}
+
+.product-card span {
+  font-size: 0.85rem;
+  color: #777;
+}

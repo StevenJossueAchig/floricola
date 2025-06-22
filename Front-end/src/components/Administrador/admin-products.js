@@ -231,7 +231,6 @@ export default function AdminProducts() {
 
   return (
     <div className="admin-products-container">
-      <h1>Productos</h1>
       <button
         onClick={() => setShowModal(true)}
         className="btn btn-primary"
