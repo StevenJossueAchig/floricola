@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import "../../styles/pedido.css"
+import "../../styles/confirmarPedido.css"
 import { useNavigate } from "react-router-dom";
 
 export default function ConfirmarPedido({lista, setContinuar}){
@@ -112,49 +112,50 @@ export default function ConfirmarPedido({lista, setContinuar}){
         setDelivery(releaseDate);
     }
 
-    return(
+    return (
+  <div className="confirmar-container">
+
+    <div className="confirmHolder">
+      {/* Lista de productos seleccionados */}
+      <ul className="selectedList">
+        {lista.map((rose) => (
+          <li className="flowerop" key={rose.producto.id_producto}>
+            <div>
+              <img src={rose.producto.top_picture} alt="top_image" />
+            </div>
+            <h3>{rose.producto.variedad}</h3>
+            <p>{rose.cantidad} unidades</p>
+          </li>
+        ))}
+      </ul>
+
+      {/* Información del pedido */}
+      <div className="infoPedido">
         <div>
-            <div className="buttonHold">
-                <button className="back" onClick={()=>setContinuar(false)}></button>
-            </div>
-            <div className="confirmHolder">
-                <ul className="selectedList">
-                        {lista.map((rose) => {
-                            return (
-                                <li className={"flowerop"}
-                                    key={rose.producto.id_producto}
-                                >
-                                    <div>
-                                        <img src={rose.producto.top_picture} alt="top_image" />
-                                    </div>
-                                        <h3>{rose.producto.variedad}</h3>
-                                        <p>{rose.cantidad} unidades</p>
-                                </li>
-                            )
-                        })}
-                </ul>
-                <div className="infoPedido">
-                    <div>
-                        <h2>Usuario solicitante:</h2>
-                        <p>{userName}</p>
-                    </div>
-                    <div>
-                        <h2>ID del usuario:</h2>
-                        <p>{userId}</p>
-                    </div>
-                    <div>
-                        <h2>Fecha de pedido:</h2>
-                        <p>{today.getDate()+"/"+(today.getMonth()+1)+"/"+today.getFullYear()}</p>
-                    </div>
-                    <div>
-                        <h2>Fecha de entrega:</h2>
-                        <p>{delivery.getDate()+"/"+(delivery.getMonth()+1)+"/"+delivery.getFullYear()}</p>
-                    </div>
-                </div>
-            </div>
-            <div className="bottomHold">
-                <button className="continue btn btn-primary" onClick={()=>{genPedido()}}>Confirmar</button>
-            </div>
+          <h2>Usuario solicitante:</h2>
+          <p>{userName}</p>
         </div>
-    )
+        <div>
+          <h2>ID del usuario:</h2>
+          <p>{userId}</p>
+        </div>
+        <div>
+          <h2>Fecha de pedido:</h2>
+          <p>{today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear()}</p>
+        </div>
+        <div>
+          <h2>Fecha de entrega:</h2>
+          <p>{delivery.getDate() + "/" + (delivery.getMonth() + 1) + "/" + delivery.getFullYear()}</p>
+        </div>
+      </div>
+    </div>
+
+    <div className="bottomHold">
+      <button className="continue btn btn-primary" onClick={genPedido}>
+        Confirmar
+      </button>
+    </div>
+  </div>
+);
+
 }

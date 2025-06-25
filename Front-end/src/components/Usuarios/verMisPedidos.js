@@ -61,7 +61,10 @@ export default function MisPedidos() {
                     console.log("Pedidos Data:", pedidosData);
 
                     if (pedidosData && pedidosData.data) {
-                        setMisPedidos(pedidosData.data);
+                        const pedidosOrdenados = [...pedidosData.data].sort(
+                        (a, b) => new Date(b.FECHA_PEDIDO) - new Date(a.FECHA_PEDIDO)
+                        );
+                        setMisPedidos(pedidosOrdenados);
                     } else {
                         console.log("No se encontraron pedidos para el usuario.");
                     }

@@ -1,87 +1,98 @@
-.cont{
-    padding-bottom: 1%;
+.cont {
+  padding: 20px;
+  background-color: #f2f5fa;
 }
 
-.fatherTable{
-    margin: 2%;
-    width:96%;
-    background-color: white;
+.fatherTable {
+  width: 95%;
+  margin: 20px auto;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 16px;
+  overflow: hidden;
 }
 
-thead{
-    background-color: #b3f0ff;
+.fatherTable th,
+.fatherTable td {
+  padding: 14px;
+  text-align: center;
 }
 
-.fatherTable img{
-    max-width: 100px;
-    max-height: 100px;
-    object-fit: contain;
-    overflow: hidden;
+thead {
+  background-color: #005f8d; /* azul marino más elegante */
+  color: white;
+  font-size: 16px;
 }
 
-.childTable{
-    width: 100%;
+.producTit {
+  background-color: #00aaff;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  letter-spacing: 0.5px;
 }
 
-.first{
-    width:5%;
+.childTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 5px;
 }
 
-.producTit{
-    font-weight: bolder;
-    background-color:#b3f0ff;
+.childTable th {
+  background-color: #e6f4fa;
+  color: #333;
+  font-size: 15px;
 }
 
-.prodOrdered{
-    border-bottom: 1px solid #b3f0ff;
+.childTable td {
+  background-color: #f9f9f9;
+  font-size: 15px;
 }
 
-.pendiente{
-    background-color: rgb(221, 255, 109);
-    color:rgb(171, 171, 0);
+.fatherTable img {
+  max-width: 100px;
+  max-height: 100px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
 }
 
-.cancelado{
-    background-color:gray;
-    color:rgb(62, 62, 62);
+.pendiente {
+  background-color: #fff3cd;
+  color: #856404;
+  font-weight: bold;
 }
 
-.entregado{
-    background-color:rgb(163, 255, 163);
-    color:green;
+.entregado {
+  background-color: #d4edda;
+  color: #155724;
+  font-weight: bold;
 }
 
-
-.forButton{
-    display: flex;
+.cancelado {
+  background-color: #e2e3e5;
+  color: #383d41;
+  font-weight: bold;
 }
 
-.forButton button{
-    border: none;
-    color:white;
-    padding:10px;
-    margin: 3px;
-    border-radius: 6px;
-    transition: all 0.5s ease;
+.forButton {
+  text-align: center;
+  padding: 16px;
 }
 
-.cancel button{
-    background-color: red;
+.forButton button {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
 }
 
-.deliver button{
-    background-color: rgb(0, 186, 0);
+.forButton button:hover {
+  background-color: #218838;
 }
-
-.cancel button:hover{
-    background-color: rgb(155, 0, 0);
-    transition: all 0.5s ease;
-}
-
-.deliver button:hover{
-    background-color: green;
-    transition: all 0.5s ease;
-}
-
-
-

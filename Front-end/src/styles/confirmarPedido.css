@@ -1,0 +1,119 @@
+.confirmar-container {
+  background-image: url("../../public/fondo1.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  padding: 2rem 4rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Contenedor principal */
+.confirmHolder {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  margin-top: 2rem;
+}
+
+/* Lista de productos seleccionados */
+.selectedList {
+  width: 48%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 25px;
+}
+
+/* Tarjeta individual */
+.flowerop {
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.flowerop:hover {
+  transform: translateY(-5px);
+}
+
+.flowerop img {
+  width: 100%;
+  height: 180px;
+  object-fit: contain;
+  margin-bottom: 12px;
+}
+
+.flowerop h3 {
+  font-size: 18px;
+  color: #333;
+  margin: 6px 0;
+}
+
+.flowerop p {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Información del pedido */
+.infoPedido {
+  width: 48%;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
+  padding: 24px 32px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  color: #222;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.infoPedido div {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.infoPedido h2 {
+  font-size: 16px;
+  color: #333;
+  margin: 0;
+}
+
+.infoPedido p {
+  font-size: 16px;
+  font-weight: 500;
+  color: #000;
+  margin: 0;
+}
+
+/* Botón confirmar */
+.bottomHold {
+  display: flex;
+  justify-content: flex-end;
+  padding: 2rem 4rem 0;
+}
+
+.continue {
+  padding: 12px 28px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(to right, #007bff, #0056b3);
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s ease;
+}
+
+.continue:hover {
+  background: linear-gradient(to right, #0056b3, #003e87);
+}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "../../styles/pedido.css";
+import "../../styles/productUser.css";
 import { useNavigate } from "react-router-dom";
 
 export default function ElegirProductos() {
@@ -50,32 +50,33 @@ export default function ElegirProductos() {
   
 
     return (
-        <div>
-            <input
-                type="text"
-                placeholder="Buscar producto..."
-                className="searchbar"
-                onChange={(e) => setSearching(e.target.value)}
-            />
-            <div className="listcontainer">
-                <ul className="productList">
-                    {filteredList.map((rose) => (
-                        <li
-                            className="flowerop"
-                            key={rose.id_producto}
-                            onClick={() => handleProductClick(rose.id_producto)}
-                        >
-                            <div>
-                                <img src={rose.top_picture} alt="top_image" />
-                            </div>
-                            <div className="bottomPart">
-                                <h3>{rose.variedad}</h3>
-                            </div>
-                            <p>{rose.stock} unidades</p>
-                        </li>
-                    ))}
-                </ul>
+  <div className="elegir-container"> {/* fondo se aplica aquí */}
+    <input
+      type="text"
+      placeholder="Buscar producto..."
+      className="searchbar"
+      onChange={(e) => setSearching(e.target.value)}
+    />
+    <div className="listcontainer">
+      <ul className="productList">
+        {filteredList.map((rose) => (
+          <li
+            className="flowerop"
+            key={rose.id_producto}
+            onClick={() => handleProductClick(rose.id_producto)}
+          >
+            <div>
+              <img src={rose.top_picture} alt="top_image" />
             </div>
-        </div>
-    );
+            <div className="bottomPart">
+              <h3>{rose.variedad}</h3>
+            </div>
+            <p>{rose.stock} unidades</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+);
+
 }

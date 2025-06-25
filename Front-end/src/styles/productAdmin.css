@@ -1,66 +1,195 @@
+/* CONTENEDOR PRINCIPAL */
 .admin-products-container {
-    padding: 20px;
-  }
-  
-  .product-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    font-family: 'Arial', sans-serif; /* Fuente más moderna */
-  }
-  
-  .product-table th,
-  .product-table td {
-    border: 1px solid #ddd;
-    padding: 12px; /* Mayor espacio para una mejor legibilidad */
-    text-align: left;
-    vertical-align: top;
-    font-size: 14px; /* Tamaño de fuente adecuado */
-  }
-  
-  .product-table th {
-    background-color: #007bff; /* Azul para la fila de encabezado */
-    color: white; /* Color del texto en el encabezado */
-  }
-  
-  .product-table tr:nth-child(even) {
-    background-color: #f9f9f9; /* Fila blanca */
-  }
-  
-  .product-table tr:nth-child(odd) {
-    background-color: #e3f2fd; /* Fila celeste claro */
-  }
-  
-  .product-table tr:hover {
-    background-color: #b3e5fc; /* Celeste más oscuro al pasar el ratón */
-  }
-  
-  .product-table img.product-image {
-    width: 100px; /* Ajusta el tamaño de las imágenes según sea necesario */
-    height: auto;
-    border-radius: 4px; /* Bordes redondeados para las imágenes */
-  }
-  
-  .btn-add-product {
-    margin-bottom: 20px;
-    padding: 10px 15px;
-    color: white;
-    background-color: #007bff;
-    border: none;
-    border-radius: 4px;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px; /* Tamaño de fuente del botón */
-    font-family: 'Arial', sans-serif; /* Fuente más moderna */
-    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
-  }
-  
-  .btn-add-product:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Elimina la selección de fila */
-  .product-table tr {
-    cursor: default;
-  }
-  
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f2f5;
+}
+
+/* BOTÓN SUPERIOR */
+.btn.btn-primary {
+  background-color: #0069d9;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.btn.btn-primary:hover {
+  background-color: #0053ba;
+}
+
+/* TABLA */
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.product-table th,
+.product-table td {
+  padding: 14px;
+  text-align: center;
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+.product-table th {
+  background-color: #343a40;
+  color: white;
+  font-weight: 600;
+}
+
+.product-table tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+.product-table tr:nth-child(odd) {
+  background-color: #f1f3f5;
+}
+
+.product-table tr:hover {
+  background-color: #e2e6ea;
+}
+
+.product-table img.product-image {
+  width: 80px;
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* MODAL */
+.popup {
+  background: white;
+  padding: 30px 20px;
+  border-radius: 12px;
+  width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.popup-inner h3 {
+  text-align: center;
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+/* FORMULARIO EN EL MODAL */
+.popup-inner input {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.popup-inner input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* BOTONES MODAL */
+.popup-inner .btn {
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.popup-inner .btn-success {
+  background-color: #28a745;
+  color: white;
+  border: none;
+}
+
+.popup-inner .btn-success:hover {
+  background-color: #218838;
+}
+
+.popup-inner .btn-secondary {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+}
+
+.popup-inner .btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+
+.alertas-container {
+  margin-bottom: 20px;
+}
+
+.alerta {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.alerta-caducar {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+}
+
+.alerta-vencido {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.alerta-stock_bajo {
+  background-color: #d1ecf1;
+  color: #0c5460;
+  border: 1px solid #bee5eb;
+}
+
+.alerta-riesgo {
+  background-color: #fff0f6;
+  color: #6f0427;
+  border: 1px solid #f5c2d1;
+}
+
+.row-caducado {
+  background-color: #ffcccc !important; /* rojo claro */
+}
+
+.row-por-caducar {
+  background-color: #fff3cd !important; /* naranja claro */
+}
+
+.row-bajo-stock {
+  background-color: #d4edda !important; /* verde claro */
+}
+
+.status-legend {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.status-box {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.status-box .color {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  display: inline-block;
+}

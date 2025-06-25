@@ -2,12 +2,16 @@ const connection = require('../db');
 
 // Agregar un nuevo producto
 const addProduct = async (req, res) => {
-    const { tipo, variedad, color, descripcion, top_picture, side_picture, longitud_disponible_cm, tiempo_de_vida_dias, tamano_flor, espinas, petalos_por_flor, stock } = req.body;
+    const { tipo, variedad, color, descripcion, top_picture, side_picture, longitud_disponible_cm, tiempo_de_vida_dias, tamano_flor, espinas, petalos_por_flor, stock, fecha_ingreso, precio } = req.body;
 
     try {
         await connection.query(
-            'INSERT INTO PRODUCTO (TIPO, VARIEDAD, COLOR, DESCRIPCION, TOP_PICTURE, SIDE_PICTURE, LONGITUD_DISPONIBLE_CM_, TIEMPO_DE_VIDA_DIAS_, TAMANO_FLOR, ESPINAS, PETALOS_POR_FLOR, STOCK) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-            [tipo, variedad, color, descripcion, top_picture, side_picture, longitud_disponible_cm, tiempo_de_vida_dias, tamano_flor, espinas, petalos_por_flor, stock]
+            `INSERT INTO PRODUCTO (
+                TIPO, VARIEDAD, COLOR, DESCRIPCION, TOP_PICTURE, SIDE_PICTURE, 
+                LONGITUD_DISPONIBLE_CM_, TIEMPO_DE_VIDA_DIAS_, TAMANO_FLOR, ESPINAS, 
+                PETALOS_POR_FLOR, STOCK, FECHA_INGRESO, PRECIO
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            [tipo, variedad, color, descripcion, top_picture, side_picture, longitud_disponible_cm, tiempo_de_vida_dias, tamano_flor, espinas, petalos_por_flor, stock, fecha_ingreso, precio]
         );
         res.send({ status: "ok" });
     } catch (error) {
@@ -55,12 +59,17 @@ const getProductById = async (req, res) => {
 // Actualizar un producto por ID
 const updateProduct = async (req, res) => {
     const { id } = req.params;
-    const { tipo, variedad, color, descripcion, top_picture, side_picture, longitud_disponible_cm, tiempo_de_vida_dias, tamano_flor, espinas, petalos_por_flor, stock } = req.body;
+    const { tipo, variedad, color, descripcion, top_picture, side_picture, longitud_disponible_cm, tiempo_de_vida_dias, tamano_flor, espinas, petalos_por_flor, stock, fecha_ingreso, precio } = req.body;
+    const fechaIngreso = fecha_ingreso.split("T")[0];
 
     try {
         await connection.query(
-            'UPDATE PRODUCTO SET TIPO = ?, VARIEDAD = ?, COLOR = ?, DESCRIPCION = ?, TOP_PICTURE = ?, SIDE_PICTURE = ?, LONGITUD_DISPONIBLE_CM_ = ?, TIEMPO_DE_VIDA_DIAS_ = ?, TAMANO_FLOR = ?, ESPINAS = ?, PETALOS_POR_FLOR = ?, STOCK = ? WHERE ID_PRODUCTO = ?',
-            [tipo, variedad, color, descripcion, top_picture, side_picture, longitud_disponible_cm, tiempo_de_vida_dias, tamano_flor, espinas, petalos_por_flor, stock, id]
+            `UPDATE PRODUCTO SET 
+                TIPO = ?, VARIEDAD = ?, COLOR = ?, DESCRIPCION = ?, TOP_PICTURE = ?, SIDE_PICTURE = ?, 
+                LONGITUD_DISPONIBLE_CM_ = ?, TIEMPO_DE_VIDA_DIAS_ = ?, TAMANO_FLOR = ?, ESPINAS = ?, 
+                PETALOS_POR_FLOR = ?, STOCK = ?, FECHA_INGRESO = ?, PRECIO = ? 
+            WHERE ID_PRODUCTO = ?`,
+            [tipo, variedad, color, descripcion, top_picture, side_picture, longitud_disponible_cm, tiempo_de_vida_dias, tamano_flor, espinas, petalos_por_flor, stock, fechaIngreso, precio, id]
         );
         res.send({ status: "ok" });
     } catch (error) {

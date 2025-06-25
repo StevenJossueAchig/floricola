@@ -1,0 +1,101 @@
+.elegir-container {
+  background-image: url("../../public/fondo1.jpg"); /* Ruta correcta */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Copiamos los estilos anteriores y los aislamos a este contenedor */
+.elegir-container .buttonHold {
+  width: 100%;
+  display: flex;
+  position: relative;
+  padding-top: 1%;
+}
+
+
+.elegir-container .searchbar {
+  width: 90%;
+  height: 50px;
+  border: 1px solid white;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #000;
+  margin: 1% 0%;
+  padding: 0 1%;
+}
+
+.elegir-container .searchbar::placeholder {
+  color: #444;
+}
+
+.elegir-container .listcontainer {
+  display: flex;
+  align-items: center;
+}
+
+.elegir-container .productList {
+  width: 98%;
+  height: 450px;
+  margin: 1%;
+  display: grid;
+  grid-template-columns: repeat(5, 16%);
+  grid-column-gap: 4%;
+  grid-row-gap: 5%;
+  overflow-y: auto;
+  margin-bottom: 2%;
+}
+
+.elegir-container .flowerop {
+  position: relative;
+  list-style-type: none;
+  background-color: white;
+  border-radius: 5px;
+  max-height: 250px;
+  min-height: 270px;
+  transition: all 0.7s ease;
+}
+
+.elegir-container .flowerop.selected {
+  transform: scale(105%);
+  border-radius: 15px;
+  border: 2px solid #007bff;
+  background-color: #b3f0ff;
+}
+
+.elegir-container .flowerop img {
+  height: 200px;
+  width: 160px;
+  object-fit: contain;
+}
+
+.elegir-container .bottomPart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.elegir-container .bottomPart input[type="number"] {
+  width: 20%;
+  margin-left: 5%;
+  border: none;
+  text-align: center;
+  color: white;
+  background-color: #00244ba5;
+  z-index: 10;
+}
+
+.elegir-container .bottomHold {
+  display: flex;
+  justify-content: right;
+  width: 100%;
+  padding-bottom: 2%;
+}
+
+.elegir-container .continue {
+  right: 5%;
+  bottom: 5%;
+}
