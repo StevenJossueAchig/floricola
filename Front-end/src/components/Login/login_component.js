@@ -1,5 +1,5 @@
 import React, { Component, useState } from "react";
-import "../../App.css";
+import "../../styles/loginModern.css";
 import { Navigate } from "react-router-dom";
 export default function Login() {
   const [usuario, setUsuario] = useState("");
@@ -25,13 +25,13 @@ export default function Login() {
       .then((res) => res.json())
       .then((data) => {
         console.log(data, "userRegister");
-        if (data.status == "ok") {
+        if (data.status === "ok") {
 
           alert("Inicio de sesión exitoso.");
           window.localStorage.setItem("token", data.data);
           window.localStorage.setItem("userType", data.userType);
           window.localStorage.setItem("loggedIn", true);
-          if (data.userType == "Admin") {
+          if (data.userType === "Admin") {
             return (window.location.href = "./admin-dashboard");
           } else {
             window.location.href = "./userDetails";
@@ -44,54 +44,55 @@ export default function Login() {
   }
 
   return (
-    <div className="auth-wrapper">
-      <div className="auth-inner">
-        <form onSubmit={handleSubmit}>
-          <h3>Login</h3>
+  <div className="login-container">
+    <div className="login-card">
+      <form onSubmit={handleSubmit}>
+        <h3>Iniciar sesión</h3>
 
-          <div className="mb-3">
-            <label>Usuario</label>
+        <div className="mb-3">
+          <label>Usuario</label>
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Ingrese su usuario"
+            onChange={(e) => setUsuario(e.target.value)}
+          />
+        </div>
+
+        <div className="mb-3">
+          <label>Contraseña</label>
+          <input
+            type="password"
+            className="form-control"
+            placeholder="Ingrese su contraseña"
+            onChange={(e) => setContrasena(e.target.value)}
+          />
+        </div>
+
+        <div className="mb-3">
+          <div className="custom-control custom-checkbox">
             <input
-              type="text"
-              className="form-control"
-              placeholder="Ingrese su usuario"
-              onChange={(e) => setUsuario(e.target.value)}
+              type="checkbox"
+              className="custom-control-input"
+              id="customCheck1"
             />
+            <label className="custom-control-label" htmlFor="customCheck1">
+              Remember me
+            </label>
           </div>
+        </div>
 
-          <div className="mb-3">
-            <label>Contraseña</label>
-            <input
-              type="password"
-              className="form-control"
-              placeholder="Ingrese su contraseña"
-              onChange={(e) => setContrasena(e.target.value)}
-            />
-          </div>
-
-          <div className="mb-3">
-            <div className="custom-control custom-checkbox">
-              <input
-                type="checkbox"
-                className="custom-control-input"
-                id="customCheck1"
-              />
-              <label className="custom-control-label" htmlFor="customCheck1">
-                Remember me
-              </label>
-            </div>
-          </div>
-
-          <div className="d-grid">
-            <button type="submit" className="btn btn-primary">
-              Submit
-            </button>
-          </div>
-          <p className="forgot-password text-right">
-            <a href="/register">Register</a>
-          </p>
-        </form>
-      </div>
+        <div className="d-grid">
+          <button type="submit" className="btn">
+            Ingresar
+          </button>
+        </div>
+        <p className="forgot-password text-right">
+          ¿No tienes cuenta? <a href="/register">Regístrate</a>
+        </p>
+      </form>
     </div>
-  );
+  </div>
+);
+
 }
