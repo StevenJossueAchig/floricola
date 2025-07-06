@@ -275,7 +275,7 @@ useEffect(() => {
       } else if (diasRestantes <= 0) {
         nuevasAlertas.push({
           tipo: "vencido",
-          mensaje: `❌ Producto "${producto.VARIEDAD}" ya ha caducado.`,
+          mensaje: `❌ Producto "${producto.VARIEDAD}" lleva ${Math.abs(diasRestantes)} día(s) caducado.`,
         });
       }
 
