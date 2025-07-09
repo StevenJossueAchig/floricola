@@ -21,6 +21,7 @@ import Pedido from "./components/Usuarios/pedido";
 import MisPedidos from "./components/Usuarios/verMisPedidos";
 import AdminPedidos from "./components/Administrador/admin-pedidos";
 import AdminProducts from "./components/Administrador/admin-products";
+import Floristerias from "./components/Floristerias";
 
 function App() {
   const isLoggedIn = window.localStorage.getItem("loggedIn"); // Check if logged in
@@ -71,7 +72,7 @@ function App() {
               </>
             )}
           </Route>
-
+          <Route path="/floristerias" element={<Floristerias />} />
           <Route path="/about" element={<About />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

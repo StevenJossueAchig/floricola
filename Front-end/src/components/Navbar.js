@@ -70,7 +70,11 @@ function Navbar({ isLoggedIn, userType, pendientes }) {
   </Link>
 </li>
 
-
+<li className={`nav-item ${location.pathname === "/floristerias" ? "active" : ""}`}>
+  <Link to="/floristerias" className="nav-link">
+    Floristerías
+  </Link>
+</li>
 
         {isLoggedIn && userType !== 'Admin' &&
           <li className={`nav-item ${location.pathname === "/misPedidos" ? "active" : ""}`}>
