@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../styles/floristerias.css";
 
 const floris = [
@@ -51,67 +51,141 @@ const floris = [
     imagen: "/florfresa.png"
   },
   {
-  nombre: "Florería Escarlata",
-  slogan: "Flores que hablan por sí solas",
-  plantas: "Arreglos, desayunos, englobados",
-  flores: "Rosas, flores achocolatadas",
-  url: "https://www.floreriaescarlata.com/",
-  imagen: "/escarlata.png"
-},
-{
-  nombre: "Bomflor Floristería Quito",
-  slogan: "Servicio inmediato a domicilio",
-  plantas: "Arreglos florales y frutales",
-  flores: "Orquídeas, globos",
-  url: "https://www.bomflor.com/",
-  imagen: "/bomflor.png"
-},
-{
-  nombre: "Taty Floristería",
-  slogan: "Arte y delicadeza en cada arreglo",
-  plantas: "Arreglos florales y frutales",
-  flores: "Cumpleaños, amor, eventos",
-  url: "https://www.taty-floristeria.com/",
-  imagen: "/taty.png"
-},
-{
-  nombre: "Tierra de Flores Quito",
-  slogan: "Entrega el mismo día en Quito",
-  plantas: "Arreglos frutales y florales",
-  flores: "Girasoles, rosas, orquídeas",
-  url: "https://www.tierradefloresquito.com/",
-  imagen: "/tierradeflores.png"
-}
-
+    nombre: "Florería Escarlata",
+    slogan: "Flores que hablan por sí solas",
+    plantas: "Arreglos, desayunos, englobados",
+    flores: "Rosas, flores achocolatadas",
+    url: "https://www.floreriaescarlata.com/",
+    imagen: "/escarlata.png"
+  },
+  {
+    nombre: "Bomflor Floristería Quito",
+    slogan: "Servicio inmediato a domicilio",
+    plantas: "Arreglos florales y frutales",
+    flores: "Orquídeas, globos",
+    url: "https://www.bomflor.com/",
+    imagen: "/bomflor.png"
+  },
+  {
+    nombre: "Taty Floristería",
+    slogan: "Arte y delicadeza en cada arreglo",
+    plantas: "Arreglos florales y frutales",
+    flores: "Cumpleaños, amor, eventos",
+    url: "https://www.taty-floristeria.com/",
+    imagen: "/taty.png"
+  },
+  {
+    nombre: "Tierra de Flores Quito",
+    slogan: "Entrega el mismo día en Quito",
+    plantas: "Arreglos frutales y florales",
+    flores: "Girasoles, rosas, orquídeas",
+    url: "https://www.tierradefloresquito.com/",
+    imagen: "/tierradeflores.png"
+  }
 ];
 
 export default function Floristerias() {
+  const [showModal, setShowModal] = useState(false);
+  const [formData, setFormData] = useState({
+    nombre: "",
+    floristeria: "",
+    contacto: "",
+    email: ""
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const { nombre, floristeria, contacto, email } = formData;
+    if (!nombre || !floristeria || !contacto || !email) {
+      alert("Por favor completa todos los campos");
+      return;
+    }
+    alert("OK");
+    setShowModal(false);
+    setFormData({ nombre: "", floristeria: "", contacto: "", email: "" });
+  };
+
   return (
-    <div
-      className="floristerias-container"
-      style={{
-        backgroundImage: `url(${process.env.PUBLIC_URL}/fondologin.jpg)`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
-      <div className="floristerias-grid">
-        {floris.map((f, i) => (
-          <a
-            key={i}
-            href={f.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flor-card"
-          >
-            <img src={f.imagen} alt={f.nombre} className="flor-img" />
-            <h3>{f.nombre}</h3>
-            <p className="slogan">{f.slogan}</p>
-            <span className="detalle">{f.plantas}</span><br/>
-            <span className="detalle">{f.flores}</span>
-          </a>
-        ))}
+    <>
+      <div
+        className="floristerias-container"
+        style={{
+          backgroundImage: `url(${process.env.PUBLIC_URL}/fondologin.jpg)`,
+          backgroundSize: "cover",
+          backgroundPosition: "center"
+        }}
+      >
+        <div className="floristerias-grid">
+          {floris.map((f, i) => (
+            <a
+              key={i}
+              href={f.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flor-card"
+            >
+              <img src={f.imagen} alt={f.nombre} className="flor-img" />
+              <h3>{f.nombre}</h3>
+              <p className="slogan">{f.slogan}</p>
+              <span className="detalle">{f.plantas}</span><br />
+              <span className="detalle">{f.flores}</span>
+            </a>
+          ))}
+        </div>
+
+        <footer className="footer">
+          Somos Bitciencia ·{" "}
+          <span className="contact-link" onClick={() => setShowModal(true)}>
+            ¿Quieres contactarnos?
+          </span>
+        </footer>
       </div>
-    </div>
+
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h2>Contáctanos</h2>
+            <form onSubmit={handleSubmit}>
+              <input
+                type="text"
+                name="nombre"
+                placeholder="Tu nombre"
+                value={formData.nombre}
+                onChange={handleChange}
+              />
+              <input
+                type="text"
+                name="floristeria"
+                placeholder="Nombre de la floristería"
+                value={formData.floristeria}
+                onChange={handleChange}
+              />
+              <input
+                type="text"
+                name="contacto"
+                placeholder="Número de contacto"
+                value={formData.contacto}
+                onChange={handleChange}
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder="Correo electrónico"
+                value={formData.email}
+                onChange={handleChange}
+              />
+              <button type="submit">Enviar</button>
+              <button type="button" onClick={() => setShowModal(false)}>
+                Cancelar
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

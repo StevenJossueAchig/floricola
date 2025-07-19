@@ -45,6 +45,11 @@ function Navbar({ isLoggedIn, userType, pendientes }) {
                 Sucursales
               </Link>
             </li>
+            <li className={`nav-item ${location.pathname === "/about" ? "active" : ""}`}>
+              <Link to="/about" className="nav-link">
+                Estadística
+              </Link>
+            </li>
           </>
         ) : (
           isLoggedIn && (
@@ -64,17 +69,15 @@ function Navbar({ isLoggedIn, userType, pendientes }) {
         )}
 
 
-<li className={`nav-item ${location.pathname === "/about" ? "active" : ""}`}>
-  <Link to="/about" className="nav-link">
-    Estadística
-  </Link>
-</li>
 
+{/*   
 <li className={`nav-item ${location.pathname === "/floristerias" ? "active" : ""}`}>
   <Link to="/floristerias" className="nav-link">
     Floristerías
   </Link>
 </li>
+*/}
+
 
         {isLoggedIn && userType !== 'Admin' &&
           <li className={`nav-item ${location.pathname === "/misPedidos" ? "active" : ""}`}>

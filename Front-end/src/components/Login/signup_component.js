@@ -14,8 +14,6 @@ export default function SignUp() {
   const [secretKey, setSecretKey] = useState("");
   const [secretKeyAsign, setSecretKeyAsign] = useState("");
 
-  
-
   useEffect(() => {
     fetch("/config.json")
       .then((res) => res.json())
@@ -120,9 +118,6 @@ const handleSubmit = (e) => {
         <form onSubmit={handleSubmit}>
           <h3>Registro</h3>
 
-          
-
-          
           <div className="mb-3">
                 <label>Nombres</label>
                 <input
@@ -178,8 +173,6 @@ const handleSubmit = (e) => {
             </div>
           </div>
           
-
-          
           <div className="row">
             <div className="col-md-6">
             <div className="mb-3">
@@ -222,7 +215,6 @@ const handleSubmit = (e) => {
             />
           </div>
           </div>
-
 
           <div className="d-grid">
             <button type="submit" className="btn btn-primary">
