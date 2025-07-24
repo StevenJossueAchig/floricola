@@ -6,7 +6,7 @@ const dbConfig = {
     user: 'root',
     password: '1234',
     //password: '090712',
-    database: 'bitciencia'
+    database: 'floranda'
 };
 
 // Crear una conexión a la base de datos

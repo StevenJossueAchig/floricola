@@ -1,7 +1,7 @@
-const connection = require('../db'); 
+const connection = require('../db');
 
 const createSucursal = async (req, res) => {
-    const { nombre, direccion } = req.body;
+    const { nombre, direccion, ciudad } = req.body;
 
     try {
         // Verificar si ya existe una sucursal con el mismo nombre
@@ -21,9 +21,10 @@ const createSucursal = async (req, res) => {
 
         // Insertar nueva sucursal
         await connection.query(
-            'INSERT INTO SUCURSAL (ID_SUCURSAL, NOMBRE, DIRECCION) VALUES (?, ?, ?)',
-            [newSucursalId, nombre, direccion]
+            'INSERT INTO SUCURSAL (ID_SUCURSAL, NOMBRE, DIRECCION, CIUDAD) VALUES (?, ?, ?, ?)',
+            [newSucursalId, nombre, direccion, ciudad]
         );
+
 
         res.send({ status: "ok", data: { ID_SUCURSAL: newSucursalId, NOMBRE: nombre, DIRECCION: direccion } });
     } catch (error) {
@@ -35,7 +36,7 @@ const createSucursal = async (req, res) => {
 // Actualizar sucursal
 const updateSucursal = async (req, res) => {
     const { id } = req.params;
-    const { nombre, direccion } = req.body;
+    const { nombre, direccion, ciudad } = req.body;
 
     try {
         // Verificar si ya existe una sucursal con el mismo nombre, excluyendo la sucursal actual
@@ -52,10 +53,10 @@ const updateSucursal = async (req, res) => {
 
         if (results.length > 0) {
             await connection.query(
-                'UPDATE SUCURSAL SET NOMBRE = ?, DIRECCION = ? WHERE ID_SUCURSAL = ?',
-                [nombre, direccion, id]
+                'UPDATE SUCURSAL SET NOMBRE = ?, DIRECCION = ?, CIUDAD = ? WHERE ID_SUCURSAL = ?',
+                [nombre, direccion, ciudad, id]
             );
-            res.send({ status: "ok", data: { ID_SUCURSAL: id, NOMBRE: nombre, DIRECCION: direccion } });
+            res.send({ status: "ok", data: { ID_SUCURSAL: id, NOMBRE: nombre, DIRECCION: direccion, CIUDAD: ciudad } });
         } else {
             res.send({ status: "error", data: "Sucursal no encontrada" });
         }
@@ -91,9 +92,10 @@ const getAllSucursales = async (req, res) => {
     try {
         // Recuperar sucursales con búsqueda
         const [results] = await connection.query(
-            'SELECT * FROM SUCURSAL WHERE NOMBRE LIKE ? OR DIRECCION LIKE ?',
-            [searchQuery, searchQuery]
+            'SELECT * FROM SUCURSAL WHERE NOMBRE LIKE ? OR DIRECCION LIKE ? OR CIUDAD LIKE ?',
+            [searchQuery, searchQuery, searchQuery]
         );
+
 
         res.json({ status: "ok", data: results });
     } catch (error) {

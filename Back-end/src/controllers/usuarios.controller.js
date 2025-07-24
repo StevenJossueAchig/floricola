@@ -109,8 +109,8 @@ const getAllUsers = async (req, res) => {
     try {
         // Recuperar usuarios con búsqueda
         const [results] = await connection.query(
-            'SELECT * FROM USUARIO WHERE NOMBRES LIKE ? OR CORREO_ELECTRONICO LIKE ?',
-            [searchQuery, searchQuery]
+            'SELECT * FROM USUARIO WHERE NOMBRES LIKE ? OR CORREO_ELECTRONICO LIKE ? OR APELLIDOS LIKE ?',
+            [searchQuery, searchQuery, searchQuery]
         );
 
         res.json({ status: "ok", data: results });

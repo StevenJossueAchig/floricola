@@ -22,6 +22,8 @@ import MisPedidos from "./components/Usuarios/verMisPedidos";
 import AdminPedidos from "./components/Administrador/admin-pedidos";
 import AdminProducts from "./components/Administrador/admin-products";
 import Floristerias from "./components/Floristerias";
+import AdminLotes from "./components/Administrador/admin-lotes";
+import AdminLoteNuevo from "./components/Administrador/admin-lotenuevo";
 
 function App() {
   const isLoggedIn = window.localStorage.getItem("loggedIn"); // Check if logged in
@@ -69,6 +71,8 @@ function App() {
                 <Route path="/sucursales" element={<AdminSucursales />} />
                 <Route path="/pedidos" element={<AdminPedidos setNumeroPendientes={setNumeroPendientes}/>}/>
                 <Route path="/admin-products" element={<AdminProducts />} />
+                <Route path="/admin-lotes" element={<AdminLotes />} />
+                <Route path="/admin-lotenuevo" element={<AdminLoteNuevo />} />
               </>
             )}
           </Route>

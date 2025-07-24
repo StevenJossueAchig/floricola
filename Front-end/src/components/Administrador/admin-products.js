@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { faTrash, faSearch, faPlus, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+import { faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../styles/productAdmin.css";
-import { Link } from "react-router-dom";
 
 export default function AdminProducts() {
+  const [estadoFiltro, setEstadoFiltro] = useState("TODOS"); // 'VISIBLE', 'OCULTO', 'TODOS'
   const [productList, setProductList] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -20,11 +21,14 @@ export default function AdminProducts() {
     tamanoFlor: "",
     espinas: "",
     petalosPorFlor: "",
-    stock: "",
-    fechaIngreso: new Date().toISOString(), // ← fecha de hoy en formato YYYY-MM-DD
-    precio: ""
+    estado: "VISIBLE",
+    //stock: "",
+    //fechaIngreso: new Date().toISOString(), ← fecha de hoy en formato YYYY-MM-DD
+    precio_unitario: ""
   });
   const [editProduct, setEditProduct] = useState(null);
+
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -72,10 +76,10 @@ export default function AdminProducts() {
       return false;
     }
 
-    if (!numeroRegex.test(producto.stock)) {
+    /*if (!numeroRegex.test(producto.stock)) {
       alert("El campo 'stock' debe contener solo números.");
       return false;
-    }
+    }*/
 
     if (!urlRegex.test(producto.topPicture)) {
       alert("La URL de la imagen principal no es válida.");
@@ -128,9 +132,10 @@ export default function AdminProducts() {
         tamano_flor: newProduct.tamanoFlor,
         espinas: newProduct.espinas,
         petalos_por_flor: newProduct.petalosPorFlor,
-        stock: newProduct.stock,
-        fecha_ingreso: newProduct.fechaIngreso.split("T")[0], // 👈 solo la fecha
-        precio: newProduct.precio
+        estado: newProduct.estado,
+        //stock: newProduct.stock,
+        //fecha_ingreso: newProduct.fechaIngreso.split("T")[0],  solo la fecha
+        precio_unitario: newProduct.precio_unitario
       }),
 
     })
@@ -149,13 +154,16 @@ export default function AdminProducts() {
             tamanoFlor: "",
             espinas: "",
             petalosPorFlor: "",
-            stock: "",
+            //stock: "",
             topPicture: "",
             sidePicture: "",
-            fechaIngreso: new Date().toISOString().split("T")[0],
-            precio: ""
+            estado: "",
+            //fechaIngreso: new Date().toISOString().split("T")[0],
+            precio_unitario: ""
           });
           fetchProducts(); // Recargar la lista de productos
+        } else if (data.data === "Ya existe un producto con esos mismos atributos.") {
+          alert("Producto ya existe con esos mismos atributos.");
         } else {
           alert("Error al crear el producto.");
         }
@@ -188,11 +196,12 @@ export default function AdminProducts() {
         tamano_flor: editProduct.tamanoFlor,
         espinas: editProduct.espinas,
         petalos_por_flor: editProduct.petalosPorFlor,
-        stock: editProduct.stock,
+        //stock: editProduct.stock,
         top_picture: editProduct.topPicture,
         side_picture: editProduct.sidePicture,
-        fecha_ingreso: editProduct.fechaIngreso,
-        precio: editProduct.precio
+        estado: editProduct.estado,
+        //fecha_ingreso: editProduct.fechaIngreso,
+        precio_unitario: editProduct.precio_unitario
       }),
     })
       .then(res => res.json())
@@ -238,6 +247,7 @@ export default function AdminProducts() {
       const response = await fetch('http://localhost:5000/getAllProducts');
       const data = await response.json();
       if (data.status === "ok") {
+        console.log("Productos recibidos:", data.data); // Aquí ves si llega STOCK
         setProductList(data.data);
       } else {
         console.error("Error al obtener los productos:", data.data);
@@ -247,69 +257,88 @@ export default function AdminProducts() {
     }
   };
 
+
   useEffect(() => {
     fetchProducts();
   }, []);
 
-const [alertas, setAlertas] = useState([]);
+  const [alertas, setAlertas] = useState([]);
 
-useEffect(() => {
-  if (productList.length > 0) {
-    const hoy = new Date();
-    const nuevasAlertas = [];
+  useEffect(() => {
+    if (productList.length > 0) {
+      const nuevasAlertas = [];
 
-    productList.forEach(producto => {
-      // Cálculo de caducidad
-      const fechaIngreso = new Date(producto.FECHA_INGRESO);
-      const vidaUtilDias = parseInt(producto.TIEMPO_DE_VIDA_DIAS_?.split("-")[1] || producto.TIEMPO_DE_VIDA_DIAS_);
-      const fechaCaducidad = new Date(fechaIngreso);
-      fechaCaducidad.setDate(fechaIngreso.getDate() + vidaUtilDias);
+      productList.forEach(producto => {
+        if (producto.STOCK <= 100) {
+          nuevasAlertas.push({
+            tipo: "stock_bajo",
+            mensaje: `📉 Bajo stock de "${producto.VARIEDAD}" (${producto.STOCK} unidades).`,
+          });
+        }
+      });
 
-      const diasRestantes = Math.ceil((fechaCaducidad - hoy) / (1000 * 60 * 60 * 24));
+      setAlertas(nuevasAlertas);
+    }
+  }, [productList]);
 
-      if (diasRestantes <= 3 && diasRestantes > 0) {
-        nuevasAlertas.push({
-          tipo: "caducar",
-          mensaje: `⚠️ Producto "${producto.VARIEDAD}" caduca en ${diasRestantes} día(s).`,
-        });
-      } else if (diasRestantes <= 0) {
-        nuevasAlertas.push({
-          tipo: "vencido",
-          mensaje: `❌ Producto "${producto.VARIEDAD}" lleva ${Math.abs(diasRestantes)} día(s) caducado.`,
-        });
-      }
-
-      // Bajo stock
-      if (producto.STOCK <= 20) {
-        nuevasAlertas.push({
-          tipo: "stock_bajo",
-          mensaje: `📉 Bajo stock de "${producto.VARIEDAD}" (${producto.STOCK} unidades).`,
-        });
-      }
-
-      // Riesgo de pérdida por exceso
-      if (producto.STOCK >= 400 && diasRestantes <= 5) {
-        nuevasAlertas.push({
-          tipo: "riesgo",
-          mensaje: `⚠️ Riesgo de pérdida por exceso: "${producto.VARIEDAD}" tiene ${producto.STOCK} unidades y caduca en ${diasRestantes} días.`,
-        });
-      }
-    });
-
-    setAlertas(nuevasAlertas);
-  }
-}, [productList]);
 
 
   return (
+
     <div className="admin-products-container">
-      <button
-        onClick={() => setShowModal(true)}
-        className="btn btn-primary"
-        style={{ marginBottom: 20 }}
-      >
-        Agregar Producto
-      </button>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+        <div className="radio-group">
+          <label>
+            <input
+              type="radio"
+              name="filtroEstado"
+              value="VISIBLE"
+              checked={estadoFiltro === "VISIBLE"}
+              onChange={() => setEstadoFiltro("VISIBLE")}
+            />
+            Visibles
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="filtroEstado"
+              value="OCULTO"
+              checked={estadoFiltro === "OCULTO"}
+              onChange={() => setEstadoFiltro("OCULTO")}
+            />
+            Ocultos
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="filtroEstado"
+              value="TODOS"
+              checked={estadoFiltro === "TODOS"}
+              onChange={() => setEstadoFiltro("TODOS")}
+            />
+            Todos
+          </label>
+        </div>
+
+
+        <div style={{ display: "flex", gap: "10px" }}>
+          <button
+            onClick={() => navigate("/admin-lotes")} // después lo cambias por navegación
+            className="btn btn-lotes"
+            style={{ marginBottom: 20 }}
+          >
+            Lotes
+          </button>
+
+          <button
+            onClick={() => setShowModal(true)}
+            className="btn btn-primary"
+            style={{ marginBottom: 20 }}
+          >
+            Agregar Producto
+          </button>
+        </div>
+      </div>
 
       {showModal && (
         <div className="popup-overlay">
@@ -388,14 +417,7 @@ useEffect(() => {
                 onChange={handleInputChange}
                 style={{ marginBottom: 10 }}
               />
-              <input
-                type="int"
-                name="stock"
-                placeholder="Stock"
-                value={newProduct.stock}
-                onChange={handleInputChange}
-                style={{ marginBottom: 10 }}
-              />
+
               <input
                 type="text"
                 name="topPicture"
@@ -412,26 +434,32 @@ useEffect(() => {
                 onChange={handleInputChange}
                 style={{ marginBottom: 10 }}
               />
-
-              <input
-                type="date"
-                name="fechaIngreso"
-                placeholder="Fecha de Ingreso"
-                value={newProduct.fechaIngreso.split("T")[0]}
-                onChange={handleInputChange}
-                style={{ marginBottom: 10 }}
-                disabled
-              />
               <input
                 type="number"
-                name="precio"
-                placeholder="Precio"
+                name="precio_unitario"
+                placeholder="Precio_unitario"
                 step="0.01"
-                value={newProduct.precio}
+                value={newProduct.precio_unitario}
                 onChange={handleInputChange}
                 style={{ marginBottom: 10 }}
               />
-
+              <div style={{ marginBottom: 10 }}>
+                <select
+                  name="estado"
+                  value={newProduct.estado}
+                  onChange={handleInputChange}
+                  style={{
+                    width: "100%",
+                    padding: "10px",
+                    borderRadius: "6px",
+                    border: "1px solid #ccc",
+                    fontSize: "14px",
+                  }}
+                >
+                  <option value="VISIBLE">Visible</option>
+                  <option value="OCULTO">Oculto</option>
+                </select>
+              </div>
 
               <button onClick={createProduct} className="btn btn-success">
                 Crear Producto
@@ -449,11 +477,11 @@ useEffect(() => {
                     TAMANO_FLOR: "",
                     ESPINAS: "",
                     PETALOS_POR_FLOR: "",
-                    STOCK: "",
+                    //STOCK: "",
                     TOP_PICTURE: "",
                     SIDE_PICTURE: "",
-                    FECHA_INGRESO: new Date().toISOString().split("T")[0],
-                    PRECIO: ""
+                    //FECHA_INGRESO: new Date().toISOString().split("T")[0],
+                    PRECIO_UNITARIO: ""
                   });
                 }}
                 className="btn btn-secondary"
@@ -482,9 +510,9 @@ useEffect(() => {
                   { name: "tamanoFlor", label: "Tamaño Flor", type: "number" },
                   { name: "espinas", label: "Espinas", type: "number" },
                   { name: "petalosPorFlor", label: "Pétalos", type: "number" },
-                  { name: "stock", label: "Stock", type: "number" },
-                  { name: "fechaIngreso", label: "Fecha Ingreso", type: "date", disabled: true },
-                  { name: "precio", label: "Precio", type: "number" },
+                  //{ name: "stock", label: "Stock", type: "number" },
+                  //{ name: "fechaIngreso", label: "Fecha Ingreso", type: "date", disabled: true },
+                  { name: "precio_unitario", label: "Precio", type: "number" },
                   { name: "topPicture", label: "Imagen Principal" },
                   { name: "sidePicture", label: "Imagen Lateral" }
                 ].map(({ name, label, type = "text", disabled = false }) => (
@@ -500,6 +528,18 @@ useEffect(() => {
                     />
                   </div>
                 ))}
+                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                  <label htmlFor="estado" style={{ width: "130px", textAlign: "right" }}>Estado:</label>
+                  <select
+                    name="estado"
+                    value={editProduct.estado}
+                    onChange={handleEditChange}
+                    style={{ flex: 1, padding: "5px", borderRadius: "4px", border: "1px solid #ccc" }}
+                  >
+                    <option value="VISIBLE">Visible</option>
+                    <option value="OCULTO">Oculto</option>
+                  </select>
+                </div>
               </div>
 
               <div style={{ marginTop: "20px" }}>
@@ -522,15 +562,6 @@ useEffect(() => {
         </div>
       )}
 
-
-<div className="status-legend">
-  <div className="status-box"><span className="color" style={{ backgroundColor: "#ffcccc" }}></span>Caducado</div>
-  <div className="status-box"><span className="color" style={{ backgroundColor: "#fff3cd" }}></span>Por caducar</div>
-  <div className="status-box"><span className="color" style={{ backgroundColor: "#d4edda" }}></span>Bajo stock</div>
-</div>
-
-
-
       <table className="product-table">
         <thead>
           <tr>
@@ -545,95 +576,96 @@ useEffect(() => {
             <th>Espinas</th>
             <th>Pétalos por Flor</th>
             <th>Stock</th>
-            <th>Fecha Ingreso</th>
             <th>Precio</th>
             <th>Imagen Principal</th>
             <th>Imagen Lateral</th>
             <th>Acciones</th>
           </tr>
         </thead>
-        <tbody>          
-          {productList.map((product) => {
-  const fechaIngreso = new Date(product.FECHA_INGRESO);
-  const vidaUtil = parseInt(product.TIEMPO_DE_VIDA_DIAS_?.split('-')?.[1] || 0);
-  const diasTranscurridos = Math.floor((new Date() - fechaIngreso) / (1000 * 60 * 60 * 24));
-  const diasRestantes = vidaUtil - diasTranscurridos;
+        <tbody>
+          {
+            (() => {
+              const productosFiltrados = productList.filter(product => {
+                if (estadoFiltro === "TODOS") return true;
+                return product.ESTADO === estadoFiltro;
+              });
 
-  let rowClass = "";
-  let motivo = "";
+              if (productosFiltrados.length === 0) {
+                return (
+                  <tr>
+                    <td colSpan="15" style={{ textAlign: "center", padding: "20px", fontWeight: "bold", color: "#555" }}>
+                      {estadoFiltro === "VISIBLE" && "No existen productos visibles."}
+                      {estadoFiltro === "OCULTO" && "No existen productos ocultos."}
+                      {estadoFiltro === "TODOS" && "No hay productos registrados."}
+                    </td>
+                  </tr>
+                );
+              }
 
-  if (diasRestantes <= 0) {
-    rowClass = "row-caducado";
-    motivo = "Producto caducado";
-  } else if (diasRestantes <= 3) {
-    rowClass = "row-por-caducar";
-    motivo = "Producto por caducar";
-  } else if (product.STOCK <= 30) {
-    rowClass = "row-bajo-stock";
-    motivo = "Stock bajo";
-  }
-  
-  return (
-    <tr key={product.ID_PRODUCTO} className={rowClass} title={motivo}>
-      <td>{product.ID_PRODUCTO}</td>
-      <td>{product.TIPO}</td>
-      <td>{product.VARIEDAD}</td>
-      <td>{product.COLOR}</td>
-      <td>{product.DESCRIPCION}</td>
-      <td>{product.LONGITUD_DISPONIBLE_CM_}</td>
-      <td>{product.TIEMPO_DE_VIDA_DIAS_}</td>
-      <td>{product.TAMANO_FLOR}</td>
-      <td>{product.ESPINAS}</td>
-      <td>{product.PETALOS_POR_FLOR}</td>
-      <td>{product.STOCK}</td>
-      <td>{product.FECHA_INGRESO?.split("T")[0]}</td>
-      <td>${product.PRECIO}</td>
-      <td><img src={product.TOP_PICTURE} alt={product.VARIEDAD} className="product-image" /></td>
-      <td><img src={product.SIDE_PICTURE} alt={`Side of ${product.VARIEDAD}`} className="product-image" /></td>
-      <td>
-        <button onClick={() => {
-          setEditProduct({
-            tipo: product.TIPO,
-            variedad: product.VARIEDAD,
-            color: product.COLOR,
-            descripcion: product.DESCRIPCION,
-            longitudDisponibleCm: product.LONGITUD_DISPONIBLE_CM_,
-            tiempoDeVidaDias: product.TIEMPO_DE_VIDA_DIAS_,
-            tamanoFlor: product.TAMANO_FLOR,
-            espinas: product.ESPINAS,
-            petalosPorFlor: product.PETALOS_POR_FLOR,
-            stock: product.STOCK,
-            topPicture: product.TOP_PICTURE,
-            sidePicture: product.SIDE_PICTURE,
-            ID_PRODUCTO: product.ID_PRODUCTO,
-            fechaIngreso: product.FECHA_INGRESO,
-            precio: product.PRECIO
-          });
+              return productosFiltrados.map((product) => {
+                let rowClass = "";
+                let motivo = "";
 
-          setShowEditModal(true);
-        }} className="btn btn-warning">
-          <FontAwesomeIcon icon={faEdit} />
-        </button>
-        <button onClick={() => deleteProduct(product.ID_PRODUCTO)} className="btn btn-danger" style={{ marginLeft: 10 }}>
-          <FontAwesomeIcon icon={faTrash} />
-        </button>
-      </td>
-    </tr>
-  );
-})}
+                if (product.STOCK <= 100) {
+                  rowClass = "row-bajo-stock";
+                  motivo = `📉 Bajo stock: quedan ${product.STOCK} unidades`;
+                }
 
+                return (
+                  <tr
+                    key={product.ID_PRODUCTO}
+                    className={`${rowClass} ${product.ESTADO === "OCULTO" ? "row-oculto" : ""}`}
+                    title={motivo || (product.ESTADO === "OCULTO" ? "Producto oculto" : "")}
+                  >
+                    <td>{product.ID_PRODUCTO}</td>
+                    <td>{product.TIPO}</td>
+                    <td>{product.VARIEDAD}</td>
+                    <td>{product.COLOR}</td>
+                    <td>{product.DESCRIPCION}</td>
+                    <td>{product.LONGITUD_DISPONIBLE_CM_}</td>
+                    <td>{product.TIEMPO_DE_VIDA_DIAS_}</td>
+                    <td>{product.TAMANO_FLOR}</td>
+                    <td>{product.ESPINAS}</td>
+                    <td>{product.PETALOS_POR_FLOR}</td>
+                    <td>{product.STOCK}</td>
+                    <td>${product.PRECIO_UNITARIO}</td>
+                    <td><img src={product.TOP_PICTURE} alt={product.VARIEDAD} className="product-image" /></td>
+                    <td><img src={product.SIDE_PICTURE} alt={`Side of ${product.VARIEDAD}`} className="product-image" /></td>
+                    <td>
+                      <button onClick={() => {
+                        setEditProduct({
+                          tipo: product.TIPO,
+                          variedad: product.VARIEDAD,
+                          color: product.COLOR,
+                          descripcion: product.DESCRIPCION,
+                          longitudDisponibleCm: product.LONGITUD_DISPONIBLE_CM_,
+                          tiempoDeVidaDias: product.TIEMPO_DE_VIDA_DIAS_,
+                          tamanoFlor: product.TAMANO_FLOR,
+                          espinas: product.ESPINAS,
+                          petalosPorFlor: product.PETALOS_POR_FLOR,
+                          topPicture: product.TOP_PICTURE,
+                          sidePicture: product.SIDE_PICTURE,
+                          ID_PRODUCTO: product.ID_PRODUCTO,
+                          estado: product.ESTADO,
+                          precio_unitario: product.PRECIO_UNITARIO
+                        });
+
+                        setShowEditModal(true);
+                      }} className="btn btn-warning">
+                        <FontAwesomeIcon icon={faEdit} />
+                      </button>
+                      <button onClick={() => deleteProduct(product.ID_PRODUCTO)} className="btn btn-danger" style={{ marginLeft: 10 }}>
+                        <FontAwesomeIcon icon={faTrash} />
+                      </button>
+                    </td>
+                  </tr>
+                );
+              });
+            })()
+          }
         </tbody>
-      </table>
 
-{alertas.length > 0 && (
-  <div className="alertas-container">
-    {alertas.map((a, i) => (
-      <div key={i} className={`alerta alerta-${a.tipo}`}>
-        {a.mensaje}
-      </div>
-    ))}
-  </div>
-)}
+      </table>
 
     </div>
   );

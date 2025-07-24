@@ -1,16 +1,17 @@
-CREATE DATABASE bitciencia;
-USE bitciencia;
+CREATE DATABASE floranda;
+USE floranda;
 
 -- Tabla sucursal
 CREATE TABLE sucursal (
-    ID_SUCURSAL INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    ID_SUCURSAL INT NOT NULL PRIMARY KEY,
     NOMBRE VARCHAR(100),
-    DIRECCION VARCHAR(255)
+    DIRECCION VARCHAR(255),
+    CIUDAD VARCHAR(50) -- CIUDAD DONDE ESTA LA SUCURSAL
 );
 
 -- Tabla usuario
 CREATE TABLE usuario (
-    ID_USUARIO INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    ID_USUARIO INT NOT NULL PRIMARY KEY,
     ID_SUCURSAL INT,
     USUARIO VARCHAR(50) UNIQUE,
     CONTRASENA VARCHAR(100),
@@ -20,23 +21,6 @@ CREATE TABLE usuario (
     CORREO_ELECTRONICO VARCHAR(50),
     ROL VARCHAR(50),
     FOREIGN KEY (ID_SUCURSAL) REFERENCES sucursal(ID_SUCURSAL)
-);
-
--- Tabla pedido
-CREATE TABLE pedido (
-    ID_PEDIDO INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    ID_USUARIO INT,
-    FECHA_PEDIDO DATE,
-    FECHA_ENTREGA DATE,
-    estado VARCHAR(50),
-    TIPO_ENTREGA VARCHAR(20), -- 'RETIRO' o 'ENVIO'
-    ID_SUCURSAL_RETIRO INT,   -- FK opcional
-    UBICACION VARCHAR(255),   -- Dirección destino o dirección de retiro
-    SUBTOTAL DECIMAL(10,2),
-    IVA DECIMAL(10,2),
-    TOTAL DECIMAL(10,2),
-    FOREIGN KEY (ID_USUARIO) REFERENCES usuario(ID_USUARIO),
-    FOREIGN KEY (ID_SUCURSAL_RETIRO) REFERENCES sucursal(ID_SUCURSAL)
 );
 
 -- Tabla producto
@@ -53,8 +37,10 @@ CREATE TABLE producto (
     TAMANO_FLOR FLOAT,
     ESPINAS SMALLINT,
     PETALOS_POR_FLOR INT,
-    PRECIO DECIMAL(10,2)
+    PRECIO_UNITARIO DECIMAL(10,2),
+    ESTADO VARCHAR(20) DEFAULT 'Disponible'
 );
+
 
 -- Tabla lote
 CREATE TABLE lote (
@@ -74,38 +60,89 @@ CREATE TABLE lote_producto (
     FOREIGN KEY (ID_PRODUCTO) REFERENCES producto(ID_PRODUCTO)
 );
 
+-- Tabla pedido
+CREATE TABLE pedido (
+    ID_PEDIDO INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    ID_USUARIO INT,
+    FECHA_PEDIDO DATE,
+    FECHA_ENTREGA DATE,
+    estado VARCHAR(50),
+    TIPO_ENTREGA VARCHAR(20), -- 'RETIRO' o 'ENVIO'
+    ID_SUCURSAL_RETIRO INT,   -- FK opcional
+    UBICACION VARCHAR(255),   -- Dirección destino o dirección de retiro
+    SUBTOTAL DECIMAL(10,2),
+    IVA DECIMAL(10,2),
+    TOTAL DECIMAL(10,2),
+    FOREIGN KEY (ID_USUARIO) REFERENCES usuario(ID_USUARIO),
+    FOREIGN KEY (ID_SUCURSAL_RETIRO) REFERENCES sucursal(ID_SUCURSAL)
+);
+
 -- Tabla incluye
 CREATE TABLE incluye (
-    ID_PRODUCTO_PEDIDO INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    ID_PRODUCTO_PEDIDO INT NOT NULL PRIMARY KEY,
     ID_LOTE_PRODUCTO INT,
     ID_PEDIDO INT,
     CANTIDAD INT,
-    PRECIO_UNITARIO DECIMAL(10,2),
+    PRECIO_UNITARIO_VENTA DECIMAL(10,2),
     FOREIGN KEY (ID_LOTE_PRODUCTO) REFERENCES lote_producto(ID_LOTE_PRODUCTO),
     FOREIGN KEY (ID_PEDIDO) REFERENCES pedido(ID_PEDIDO)
 );
 
 
-INSERT INTO sucursal (ID_SUCURSAL, NOMBRE, DIRECCION) VALUES
-(1, 'Sucursal 1', 'Dirección prueba, Calee Prueba OE-799 y Avenida prueba'),
-(2, 'Sucursal 3', 'Colon y 6 de Diciembre'),
-(3, 'Sucursal 2', 'Mariscal Sucre'),
-(4, 'Sucursal 4', 'Sangolqui'),
-(5, 'Sucursal 5', 'El Quinche');
+INSERT INTO sucursal (ID_SUCURSAL, NOMBRE, DIRECCION, CIUDAD) VALUES
+(1, 'Sucursal 1', 'Av. Amazonas N39-34 y Pereira', 'Quito'),         
+(2, 'Sucursal 2', 'Av. Amazonas 4545', 'Quito'),                        
+(3, 'Sucursal 3', 'Calle Pichincha #309 y 9 de Octubre', 'Guayaquil'),    
+(4, 'Sucursal 4', 'Av. Francisco de Orellana y Justino Cornejo', 'Guayaquil'), 
+(5, 'Sucursal 5', 'Av. Solano y Av. 12 de Abril', 'Cuenca');   
 
 INSERT INTO usuario (ID_USUARIO, ID_SUCURSAL, USUARIO, CONTRASENA, NOMBRES, APELLIDOS, TELEFONO, CORREO_ELECTRONICO, ROL) VALUES
-(2, NULL, 'admin', '$2a$10$NCkZvAwSeySEslNkRlryluWhzolE3ElDwqKYYl1Ch2k0znQ6ruo9y', 'admin', 'admin', '0996388431', 'admin@gmail.com', 'Admin'),
-(6, 2, 'David', '$2a$10$F31NlXMgLNRiKC5XOfTZJOCoYTQPTd5C8vFM5ZPIkO9sVauweCCXK', 'David', 'Leal', '0123456789', 'correo@falso.com', 'Usuario'),
-(7, 1, 'steven', '$2a$10$Zhp/vqrFyQEk6N7wI9qhxO..G0wNWt9NWd970Rkn5NYerXkX9xwlC', 'Steven', 'Achig', '0998476747', 'stevenjossue5@gmail.com', 'Admin'),
-(8, 4, 'gensis', '$2a$10$UMtvdrO3dQg8whkHUomUIuAeO5uk5bwp4RxEv6S88falW89nmFOUe', 'Genesis', 'Ruales', '8408949', 'Genesis@gmail.com', 'Usuario'),
-(9, 2, 'kevinandrade', '$2a$10$SSwrxCg0AGdnIY9aFOdnROGW9ZeaVSstTVqMlRGeqTq76rhlPhkfG', 'Kevin', 'Andrade', '0998647585', 'kevinandrade@gmail.com', 'Usuario'),
-(10, 3, 'Lola', '$2a$10$FT/3t0CdPRTlLH9xE76.G.C3QxHWPk8YPcFS8DLa9Nv0a7LByXCRa', 'Lola', 'Lolita', '1234567890', 'Lola@amor.com', 'Usuario');
+(1, NULL, 'admin', '$2a$10$NCkZvAwSeySEslNkRlryluWhzolE3ElDwqKYYl1Ch2k0znQ6ruo9y', 'admin', 'admin', '0996388431', 'admin@gmail.com', 'Admin'),                 -- admin
+(2, NULL, 'steven', '$2a$10$Zhp/vqrFyQEk6N7wI9qhxO..G0wNWt9NWd970Rkn5NYerXkX9xwlC', 'Steven', 'Achig', '0998476747', 'stevenjossue5@gmail.com', 'Admin'),       -- 1234
+(3, 4, 'genesis', '$2a$10$UMtvdrO3dQg8whkHUomUIuAeO5uk5bwp4RxEv6S88falW89nmFOUe', 'Genesis', 'Ruales', '8408949', 'Genesis@gmail.com', 'Usuario'),              -- 1234
+(4, 2, 'kevinandrade', '$2a$10$SSwrxCg0AGdnIY9aFOdnROGW9ZeaVSstTVqMlRGeqTq76rhlPhkfG', 'Kevin', 'Andrade', '0998647585', 'kevinandrade@gmail.com', 'Usuario');   -- 1234567890
 
-INSERT INTO producto (ID_PRODUCTO, TIPO, VARIEDAD, COLOR, DESCRIPCION, TOP_PICTURE, SIDE_PICTURE, LONGITUD_DISPONIBLE_CM_, TIEMPO_DE_VIDA_DIAS_, TAMANO_FLOR, ESPINAS, PETALOS_POR_FLOR, STOCK, FECHA_INGRESO, PRECIO) VALUES
-(1, 'Rose', 'Alba', 'White', 'White', 'https://fincasderosas.com/wp-content/uploads/2020/12/rosa-alba1.jpg', 'https://floramarket.es/wp-content/uploads/2022/03/rosa-alba-1.png', '50 to 90', '14-18', 6.5, 1, 47, 140, '2025-01-15', 1.20),
-(2, 'Rose', 'Altamira', 'Novelty', 'Cherry/Red', 'https://www.staroses.com/wp-content/uploads/2020/02/altamira2-1.jpg', 'https://www.staroses.com/wp-content/uploads/2020/02/altamira2-1.jpg', '40 to 70', '16-20', 5.4, 1, 56, 497, '2025-01-16', 1.40),
-(3, 'Roses', 'Amorosas', 'Pink', 'Medium Pink', 'https://297820.selcdn.ru/crm1/images/species/4144.jpg?=2023-12-01+06%3A28%3A39', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRf9akiiFj_LJvhjSodQjLh6eTd37YmykH6xnm-M6eDaeohen-7RuR4pHXHW19Y4514q4o&usqp=CAU', '60 to 90', '15-25', 6.0, 1, 25, 42, '2025-01-17', 1.10),
-(4, 'Rose', 'Gerbera', 'Fucsia', 'Pink Petales', 'https://cdn.pixabay.com/photo/2016/04/20/21/17/png-1342113_1280.png', 'https://www.thecolvinco.com/es/c/wp-content/uploads/2020/06/gerbera_red-1024x1024.jpg', '60 to 80', '15-35', 5.5, 0, 35, 60, '2025-01-18', 1.30);
+INSERT INTO producto (TIPO, VARIEDAD, COLOR, DESCRIPCION, TOP_PICTURE, SIDE_PICTURE, LONGITUD_DISPONIBLE_CM_, TIEMPO_DE_VIDA_DIAS_, TAMANO_FLOR, ESPINAS, PETALOS_POR_FLOR, PRECIO_UNITARIO, ESTADO) VALUES
+('Rose', 'Alba', 'White', 'White', 'https://fincasderosas.com/wp-content/uploads/2020/12/rosa-alba1.jpg', 'https://floramarket.es/wp-content/uploads/2022/03/rosa-alba-1.png', '50 to 90', '14-18', 6.5, 1, 47, 1.20, 'VISIBLE'),
+('Rose', 'Altamira', 'Novelty', 'Cherry/Red', 'https://www.staroses.com/wp-content/uploads/2020/02/altamira2-1.jpg', 'https://www.staroses.com/wp-content/uploads/2020/02/altamira2-1.jpg', '40 to 70', '16-20', 5.4, 1, 56, 1.40, 'VISIBLE'),
+('Roses', 'Amorosas', 'Pink', 'Medium Pink', 'https://297820.selcdn.ru/crm1/images/species/4144.jpg?=2023-12-01+06%3A28%3A39', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRf9akiiFj_LJvhjSodQjLh6eTd37YmykH6xnm-M6eDaeohen-7RuR4pHXHW19Y4514q4o&usqp=CAU', '60 to 90', '15-25', 6.0, 1, 25, 1.10, 'VISIBLE'),
+('Rose', 'Gerbera', 'Fucsia', 'Pink Petales', 'https://cdn.pixabay.com/photo/2016/04/20/21/17/png-1342113_1280.png', 'https://www.thecolvinco.com/es/c/wp-content/uploads/2020/06/gerbera_red-1024x1024.jpg', '60 to 80', '15-35', 5.5, 0, 35, 1.30, 'VISIBLE'),
+('Tulipán', 'Golden Apeldoorn', 'Amarillo', 'Tulipán amarillo vibrante ideal para arreglos florales.',
+'https://enviodeflores.cl/1885-medium_default/tulipanes-amarillos.jpg', 
+'https://almacenesmarriott.com/wp-content/uploads/2024/01/S20258__1.jpg',
+'60 - 100', '15-25',
+7.5, 0, 50,
+0.85, 'VISIBLE');
+
+INSERT INTO lote (FECHA_INGRESO, OBSERVACIONES) VALUES 
+('2025-07-25', 'Todo nuevo'),
+('2025-08-01', 'Todo nuevo'),
+('2025-08-08', 'Todo nuevo'),
+('2025-08-15', 'Todo nuevo'),
+('2025-08-22', 'Todo nuevo');
+
+INSERT INTO lote_producto (ID_LOTE, ID_PRODUCTO, CANTIDAD_TOTAL, ESTADO) VALUES 
+(1, 1, 30, 'Disponible'),
+(1, 2, 25, 'Disponible'),
+(1, 3, 40, 'Disponible'),
+(1, 4, 35, 'Disponible');
+INSERT INTO lote_producto (ID_LOTE, ID_PRODUCTO, CANTIDAD_TOTAL, ESTADO) VALUES 
+(2, 5, 45, 'Disponible');
+INSERT INTO lote_producto (ID_LOTE, ID_PRODUCTO, CANTIDAD_TOTAL, ESTADO) VALUES 
+(3, 2, 28, 'Disponible'),
+(3, 3, 33, 'Disponible');
+INSERT INTO lote_producto (ID_LOTE, ID_PRODUCTO, CANTIDAD_TOTAL, ESTADO) VALUES 
+(4, 1, 22, 'Disponible'),
+(4, 4, 26, 'Disponible'),
+(4, 5, 38, 'Disponible');
+INSERT INTO lote_producto (ID_LOTE, ID_PRODUCTO, CANTIDAD_TOTAL, ESTADO) VALUES 
+(5, 1, 30, 'Disponible'),
+(5, 2, 25, 'Disponible'),
+(5, 3, 40, 'Disponible'),
+(5, 4, 35, 'Disponible');
+(5, 5, 30, 'Disponible');
+
+
 
 INSERT INTO pedido (ID_PEDIDO, ID_USUARIO, FECHA_PEDIDO, FECHA_ENTREGA, estado) VALUES
 (13, 8, '2024-08-19', '2024-08-20', 'ENTREGADO'),

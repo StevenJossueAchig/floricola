@@ -2,7 +2,11 @@ const { Router } = require('express');
 const router = Router();
 
 const { 
-    registerUser,loginUser,getUserData,deleteUser,getAllUsers
+    registerUser,
+    loginUser,
+    getUserData,
+    deleteUser,
+    getAllUsers,
 } = require('../controllers/usuarios.controller');
 
 const { 
@@ -29,6 +33,15 @@ const {
     deleteProduct
 } = require('../controllers/productos.controller');
 
+const {
+    createLote,
+    getLotes,
+    getLoteById,
+    updateLote,
+    deleteLote
+} = require('../controllers/lotes.controller');
+
+
 // RUTAS PRODUCTOS
 router.post('/addProduct', addProduct);
 router.get('/getAllProducts', getAllProducts);
@@ -49,11 +62,20 @@ router.get('/getSucursal/:id', getSucursalById);
 router.get('/getAllSucursales', getAllSucursales);
 router.post('/updateSucursal/:id', updateSucursal);
 router.post('/deleteSucursal/:id', deleteSucursal);
+
 // Rutas para PEDIDOS
 router.post('/createPedido',createPedido);
 router.get('/getPedidos',getPedidos);
 router.get('/getPedidoDeUsuario/:id_usuario',getPedidoDeUsuario);
 router.put('/entregarPedido/:id_pedido',entregarPedido);
 router.put('/cancelarPedido/:id_pedido',cancelarPedido);
+
+// Rutas para LOTES
+router.post('/createLote', createLote);
+router.get('/getLotes', getLotes);
+router.get('/getLote/:id', getLoteById);
+router.put('/updateLote/:id', updateLote);
+router.delete('/deleteLote/:id', deleteLote);
+
 
 module.exports = router;

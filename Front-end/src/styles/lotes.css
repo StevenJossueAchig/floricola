@@ -1,0 +1,111 @@
+.admin-lotes-container {
+  padding: 20px;
+  max-width: 1100px;
+  margin: auto;
+  text-align: center;
+}
+
+.lote-search-input {
+  padding: 8px;
+  margin-bottom: 20px;
+  width: 300px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.lotes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 15px;
+}
+
+.lote-card {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  width: 250px;
+  height: 170px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+}
+
+.lote-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4); /* oscurece la imagen de fondo */
+}
+
+.lote-card-header {
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 8px 12px;
+  font-weight: bold;
+  font-size: 16px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 2;
+  text-align: center;
+}
+
+.lote-card-content p:nth-child(2) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 2.8em; /* Ajusta esto según tu font-size */
+  line-height: 1.4em; /* Asegura espacio adecuado entre líneas */
+  margin: 0; /* Elimina margen si es innecesario */
+}
+
+
+.lote-card-content {
+  padding: 10px;
+  z-index: 2;
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.6);
+  color: #000;
+  border-top: 1px solid #ccc;
+  font-size: 14px;
+  line-height: 1.4em;
+}
+
+.modal-lote {
+  background: white;
+  padding: 20px;
+  max-width: 700px;
+  margin: auto;
+  border-radius: 8px;
+  position: relative;
+  top: 50px;
+}
+
+.ReactModal__Overlay {
+  z-index: 1000 !important;
+  background-color: rgba(0, 0, 0, 0.5) !important; /* opcional: fondo oscuro */
+}
+
+.ReactModal__Content {
+  z-index: 1001 !important;
+}
+
+.lote-observaciones {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 2.8em;
+  line-height: 1.4em;
+  margin: 0;
+}
+

@@ -99,7 +99,7 @@ export default function AdminHome() {
                     <td>{i.APELLIDOS}</td>
                     <td>{i.CORREO_ELECTRONICO}</td>
                     <td>{i.TELEFONO}</td>
-                    <td>{i.CORREO_ELECTRONICO}</td>
+                    <td>{i.ID_SUCURSAL}</td>
                     <td>{i.ROL}</td>
                     <td>{i.USUARIO}</td>
                     <td>

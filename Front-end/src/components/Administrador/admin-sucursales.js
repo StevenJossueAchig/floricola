@@ -10,6 +10,7 @@ export default function SucursalHome() {
   const [newSucursal, setNewSucursal] = useState({
     nombre: "",
     direccion: "",
+    ciudad: "",
   });
   const [editing, setEditing] = useState(false);
   const [editSucursalId, setEditSucursalId] = useState(null);
@@ -46,12 +47,12 @@ export default function SucursalHome() {
   };
 
   const createOrUpdateSucursal = () => {
-    if (!newSucursal.nombre || !newSucursal.direccion) {
-        alert("Todos los campos son obligatorios.");
-        return;
+    if (!newSucursal.nombre || !newSucursal.direccion || !newSucursal.ciudad) {
+      alert("Todos los campos son obligatorios.");
+      return;
     }
 
-    const url = editing 
+    const url = editing
       ? `http://localhost:5000/updateSucursal/${editSucursalId}`
       : "http://localhost:5000/createSucursal";
 
@@ -78,7 +79,7 @@ export default function SucursalHome() {
         console.error('Error:', error);
         alert("Ocurrió un error durante la operación.");
       });
-};
+  };
 
 
   const handleEditSucursal = (sucursal) => {
@@ -87,6 +88,7 @@ export default function SucursalHome() {
     setNewSucursal({
       nombre: sucursal.NOMBRE,
       direccion: sucursal.DIRECCION,
+      ciudad: sucursal.CIUDAD || "", // Asegurarse de que la ciudad esté incluida
     });
     setShowPopup(true);
   };
@@ -136,6 +138,7 @@ export default function SucursalHome() {
               <tr>
                 <th>Nombre</th>
                 <th>Dirección</th>
+                <th>Ciudad</th>
                 <th>Editar</th>
                 <th>Eliminar</th>
               </tr>
@@ -146,6 +149,7 @@ export default function SucursalHome() {
                   <tr key={sucursal.ID_SUCURSAL}>
                     <td>{sucursal.NOMBRE}</td>
                     <td>{sucursal.DIRECCION}</td>
+                    <td>{sucursal.CIUDAD}</td>
                     <td>
                       <FontAwesomeIcon
                         icon={faEdit}
@@ -204,6 +208,21 @@ export default function SucursalHome() {
                   name="direccion"
                   placeholder="Dirección de la sucursal"
                   value={newSucursal.direccion}
+                  onChange={handleInputChange}
+                  style={{
+                    marginBottom: 10,
+                    padding: "8px",
+                    borderRadius: "4px",
+                    border: "1px solid #ccc",
+                    width: "100%",
+                    boxSizing: "border-box",
+                  }}
+                />
+                <input
+                  type="text"
+                  name="ciudad"
+                  placeholder="Ciudad de la sucursal"
+                  value={newSucursal.ciudad}
                   onChange={handleInputChange}
                   style={{
                     marginBottom: 10,
